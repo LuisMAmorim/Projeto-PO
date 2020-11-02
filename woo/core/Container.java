@@ -1,3 +1,5 @@
+package woo.core;
+
 enum ServiceQuality {
 	B4,
 	C4,

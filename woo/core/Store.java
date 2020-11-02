@@ -1,3 +1,5 @@
+package woo.core;
+
 public class Store {
 	private int _date;
 	private List<Product> _products;

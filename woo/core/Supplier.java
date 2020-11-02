@@ -1,3 +1,5 @@
+package woo.core;
+
 public class Supplier {
 	private String _id;
 	private String _name;

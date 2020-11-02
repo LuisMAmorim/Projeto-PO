@@ -1,3 +1,5 @@
+package woo.core;
+
 public abstract class Product {
 	private int _price;
 	private int _criticalValue;

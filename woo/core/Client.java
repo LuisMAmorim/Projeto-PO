@@ -1,3 +1,5 @@
+package woo.core;
+
 enum ClientStatus {
   NORMAL,
   ELITE,

@@ -1,3 +1,5 @@
+package woo.core;
+
 public class StoreManager {
 	private Store _store;
 

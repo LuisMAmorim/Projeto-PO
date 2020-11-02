@@ -1,3 +1,5 @@
+package woo.core;
+
 public class Order extends Transaction {
 	private int _paymentDate;
 	private int _amountPaid;
