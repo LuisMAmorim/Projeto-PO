@@ -13,6 +13,11 @@ public class Supplier {
 	}
 
 	public List<Transaction> getTransactions() {
+		return _orders;
+	}
 
+	public String toString() {
+		return _id + "|" + _name + "|" + _address + "|" + _enabled;
+		/* yes() e no() ??? */
 	}
 }
