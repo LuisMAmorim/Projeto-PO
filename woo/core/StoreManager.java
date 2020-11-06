@@ -8,6 +8,8 @@ import woo.core.exception.MissingFileAssociationException;
 import woo.core.exception.ImportFileException;
 import woo.core.exception.BadEntryException;
 
+import woo.app.exception.InvalidDateException;
+
 /**
  * StoreManager: façade for the core classes.
  */
@@ -40,6 +42,14 @@ public class StoreManager {
 
 	public void updatePrice(String productId, int price) {
 		
+	}
+
+	public int getDate() {
+    	return _store.getDate();
+  	}
+
+  	public void advanceDate(int numDays) throws InvalidDateException {
+		_store.advanceDate();
 	}
 
 	/* ... */

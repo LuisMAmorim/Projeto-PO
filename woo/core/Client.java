@@ -1,9 +1,7 @@
 package woo.core;
 
 enum ClientStatus {
-  NORMAL,
-  ELITE,
-  SELECTION
+  NORMAL, ELITE, SELECTION;
 }
 
 public class Client {

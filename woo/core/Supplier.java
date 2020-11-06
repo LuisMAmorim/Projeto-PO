@@ -18,6 +18,6 @@ public class Supplier {
 
 	public String toString() {
 		return _id + "|" + _name + "|" + _address + "|" + _enabled;
-		/* yes() e no() ??? */
+		/* enabled - yes() ou no() - a adicionar depois no comando */
 	}
 }

@@ -7,6 +7,8 @@ import java.io.IOException;
 
 import woo.core.exception.BadEntryException;
 
+import woo.app.exception.InvalidDateException; /* funciona??? */
+
 /**
  * Class Store implements a store.
  */
@@ -47,10 +49,11 @@ public class Store implements Serializable /* throws InvalidDateException */{
 		return _date;
 	}
 
-	public void advanceDate(int numDays) {
+	public void advanceDate(int numDays) throws InvalidDateException {
 		if (numDays > 0)
 			_date += numDays;
-		/* throw exception */
+		else
+			throw new InvalidDateException(_date + numDays);
 	}
 
 	/* ... */

@@ -4,14 +4,15 @@ import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
-//FIXME import other classes
+
+import woo.app.exception.InvalidDateException;
 
 /**
  * Advance current date.
  */
 public class DoAdvanceDate extends Command<StoreManager> {
   
-  //FIXME add input fields
+  Input<Integer> numDays = _form.addIntegerInput(Message.requestDaysToAdvance());
 
   public DoAdvanceDate(StoreManager receiver) {
     super(Label.ADVANCE_DATE, receiver);
