@@ -8,7 +8,7 @@ import woo.core.exception.MissingFileAssociationException;
 import woo.core.exception.ImportFileException;
 import woo.core.exception.BadEntryException;
 
-import woo.app.exception.InvalidDateException;
+import woo.core.exception.AdvanceDateException;
 
 /**
  * StoreManager: façade for the core classes.
@@ -48,7 +48,7 @@ public class StoreManager {
     	return _store.getDate();
   	}
 
-  	public void advanceDate(int numDays) throws InvalidDateException {
+  	public void advanceDate(int numDays) {
 		_store.advanceDate();
 	}
 

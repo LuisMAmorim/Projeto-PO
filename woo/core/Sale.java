@@ -9,7 +9,7 @@ public class Sale extends Transaction {
 
 	}
 
-	public boolean getPaid() {
-		
+	public int getPaid() {
+		return _amountPaid;
 	}
 }

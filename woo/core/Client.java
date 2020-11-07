@@ -32,6 +32,14 @@ public class Client {
 	}
 
 	public String toString() {
-		
+		int amount;
+		int amountPaid;
+
+		for (Sale s : _sales) {
+			amount += s.getCost();
+			amountPaid += s.getPaid();
+		}
+
+		return id + "|" + name + "|" + adress + "|" + amount + "|" + amountPaid;
 	}
 }

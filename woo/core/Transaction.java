@@ -6,7 +6,7 @@ public abstract class Transaction {
 	private int _date;
 
 	public int getCost() {
-
+		return _cost;
 	}
 
 	public abstract String toString()

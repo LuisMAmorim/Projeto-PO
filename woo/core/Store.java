@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import woo.core.exception.BadEntryException;
 
-import woo.app.exception.InvalidDateException; /* funciona??? */
+import woo.core.exception.AdvanceDateException; /* funciona??? */
 
 /**
  * Class Store implements a store.
@@ -30,6 +30,24 @@ public class Store implements Serializable /* throws InvalidDateException */{
 
 	}
 
+	/* Date */
+
+	public int getDate() {
+		return _date;
+	}
+
+	public void advanceDate(int numDays) throws AdvanceDateException {
+		_date += numDays;
+	}
+
+	/* Products */
+
+	public List<Product> getAllProducts() {
+		return _products;
+	}
+
+	/* Clients */
+
 	public void registerClient(String id, String name, String address) {
 
 	}
@@ -45,18 +63,27 @@ public class Store implements Serializable /* throws InvalidDateException */{
 		/* se nao existir? */
 	}
 
-	public int getDate() {
-		return _date;
+	/* Suppliers */
+
+	public void registerSupplier(String id, String name, String address) {
+		int i = 0;
+		Supplier supplier = new Supplier(id, name, adress);
+
+		for (Supplier s : _suppliers) {
+			if (supplier.compareTo(s) < 0) {
+				_suppliers.add(i, supplier);
+				break;
+			}
+			i++;
+		} 
 	}
 
-	public void advanceDate(int numDays) throws InvalidDateException {
-		if (numDays > 0)
-			_date += numDays;
-		else
-			throw new InvalidDateException(_date + numDays);
+	public List<Supplier> getSuppliers() {
+		return _suppliers;
 	}
 
 	/* ... */
+
 
 	/**
 	* @param txtfile filename to be loaded.
