@@ -41,5 +41,9 @@ public abstract class Product {
 		return _supplier;
 	}
 
+	public int compareTo(Product other) {
+		return _id.toUpperCase().compareTo(other.getId().toUpperCase());
+	}
+
 	public abstract String toString();
 }

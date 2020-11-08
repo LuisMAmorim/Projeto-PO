@@ -10,8 +10,8 @@ enum ServiceQuality {
 public class Container extends Box {
 	private ServiceQuality _serviceQuality;
 
-	public Container(String id, int price, int crit, Supplier supplier, ServiceLevel s, ServiceQuality quality) {
-		super(id, price, crit, supplier, s);
+	public Container(String id, ServiceLevel s, ServiceQuality quality, Supplier supplier, int price, int crit, int q) {
+		super(id, s, supplier, price, crit, q);
 		_serviceQuality = quality;
 	}
 
