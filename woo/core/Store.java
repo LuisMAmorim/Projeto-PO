@@ -7,8 +7,6 @@ import java.io.IOException;
 
 import woo.core.exception.BadEntryException;
 
-import woo.core.exception.AdvanceDateException; /* funciona??? */
-
 /**
  * Class Store implements a store.
  */
@@ -24,7 +22,7 @@ public class Store implements Serializable /* throws InvalidDateException */{
 	private List<Product> _products;
 	private List<Client> _clients;
 	private List<Supplier> _suppliers;
-	private List<Transactions> _transactions;
+	private List<Transaction> _transactions;
 
 	public Store() {
 
@@ -36,7 +34,7 @@ public class Store implements Serializable /* throws InvalidDateException */{
 		return _date;
 	}
 
-	public void advanceDate(int numDays) throws AdvanceDateException {
+	public void advanceDate(int numDays) {
 		_date += numDays;
 	}
 
@@ -70,12 +68,11 @@ public class Store implements Serializable /* throws InvalidDateException */{
 		Supplier supplier = new Supplier(id, name, adress);
 
 		for (Supplier s : _suppliers) {
-			if (supplier.compareTo(s) < 0) {
-				_suppliers.add(i, supplier);
+			if (supplier.compareTo(s) < 0)
 				break;
-			}
 			i++;
-		} 
+		}
+		_suppliers.add(i, supplier);
 	}
 
 	public List<Supplier> getSuppliers() {

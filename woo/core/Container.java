@@ -15,13 +15,13 @@ public class Container extends Box {
 		_serviceQuality = quality;
 	}
 
-	public ServiceLevel getServiceQuality() {
+	public ServiceQuality getServiceQuality() {
 		return _serviceQuality;
 	}
 
 	@Override
 	public String toString() {
-		return "CONTAINER|" + getId() + "|" + getSupplier().getId() + "|" + getPrice(); + "|" +
+		return "CONTAINER|" + getId() + "|" + getSupplier().getId() + "|" + getPrice() + "|" +
 		getCriticalValue() + "|" + getCurrentQuantity() + "|" + getServiceLevel() + "|" + _serviceQuality;
 	}
 }

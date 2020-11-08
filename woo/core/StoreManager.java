@@ -49,7 +49,7 @@ public class StoreManager {
   	}
 
   	public void advanceDate(int numDays) {
-		_store.advanceDate();
+		_store.advanceDate(numDays);
 	}
 
 	/* ... */

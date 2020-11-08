@@ -1,8 +1,13 @@
 package woo.core;
 
+import java.util.List;
+import java.util.LinkedList;
+
+
 enum ClientStatus {
   NORMAL, ELITE, SELECTION;
 }
+
 
 public class Client {
 	private String _id;
@@ -11,16 +16,16 @@ public class Client {
 	private ClientStatus _status;
 	private int _points;
 	private List<Notification> _notifications;
-	private List<Sale> _sales;
+	private List<Transaction> _sales;
 
 	public Client(String id, String name, String address) {
 		_id = id;
 		_name = name;
-		_adress = adress;
-		_status = NORMAL;
+		_address = address;
+		_status = ClientStatus.NORMAL;
 		_points = 0;
-		_notifications = new ArrayList<Notification>;
-		_sales = new ArrayList<Sale>;
+		_notifications = new LinkedList<Notification>();
+		_sales = new LinkedList<Transaction>();
 	}
 
 	public String getId() {
@@ -40,6 +45,7 @@ public class Client {
 			amountPaid += s.getPaid();
 		}
 
-		return id + "|" + name + "|" + adress + "|" + amount + "|" + amountPaid;
+		return String.join("|", _id, _name, _address,
+			Integer.toString(amount), Integer.toString(amountPaid));
 	}
 }

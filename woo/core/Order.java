@@ -13,4 +13,6 @@ public class Order extends Transaction {
 	public void addItem(Item it) {
 
 	}
+	
+	public String toString();
 }

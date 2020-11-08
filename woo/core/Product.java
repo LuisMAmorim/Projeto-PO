@@ -1,5 +1,9 @@
 package woo.core;
 
+import java.util.List;
+import java.util.LinkedList;
+
+
 public abstract class Product {
 	private int _price;
 	private int _criticalValue;
@@ -8,13 +12,13 @@ public abstract class Product {
 	private Supplier _supplier;
 	private List<Client> _clientsMuted;
 
-	public Product(String id, int price, int crit, Supplier supplier) {
+	public Product(String id, Supplier supplier, int price, int crit, int q) {
 		_id = id;
 		_price = price;
 		_criticalValue = crit;
-		_currentQuantity = 0;
+		_currentQuantity = q;
 		_supplier = supplier;
-		_clientsMuted = new ArrayList<Client>;
+		_clientsMuted = new LinkedList<Client>();
 	}
 
 	public String getId() {
@@ -33,5 +37,9 @@ public abstract class Product {
 		return _currentQuantity;
 	}
 
-	public abstract String toString()
+	public Supplier getSupplier() {
+		return _supplier;
+	}
+
+	public abstract String toString();
 }

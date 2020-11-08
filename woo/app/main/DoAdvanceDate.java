@@ -5,7 +5,6 @@ import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
 
-import woo.core.exception.AdvanceDateException;
 import woo.app.exception.InvalidDateException;
 
 /**

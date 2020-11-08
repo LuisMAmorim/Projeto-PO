@@ -21,7 +21,7 @@ public class Box extends Product {
 
 	@Override
 	public String toString() {
-		return "BOX|" + getId() + "|" + getSupplier().getId() + "|" + getPrice(); + "|" +
+		return "BOX|" + getId() + "|" + getSupplier().getId() + "|" + getPrice() + "|" +
 		getCriticalValue() + "|" + getCurrentQuantity() + "|" + _serviceLevel;
 	}
 }

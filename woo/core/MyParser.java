@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.BufferedReader;
 
 import woo.core.exception.BadEntryException;
+import woo.core.Store;
 // add here more imports if needed
 
 public class MyParser {
@@ -62,9 +63,13 @@ public class MyParser {
     String name = components[2];
     String address = components[3];
 
+    _store.registerSupplier(id, name, address);
+
     // create/register supplier?
     // for example, _store.registerSupplier(id, name, address);
     // or use _store.registerSupplier(components[1];, components[2], components[3]);;
+
+    
   }
 
   // Format: CLIENT|id|nome|endereço
@@ -72,7 +77,24 @@ public class MyParser {
     if (components.length != 4)
       throw new BadEntryException("Invalid number of fields (4) in client description: " + line);
 
-    // add code here
+    String id = components[1];
+    String name = components[2];
+    String address = components[3];
+
+    _store.registerClient(id, name, address);
+  }
+
+  public ServiceLevel parseServiceLevel(String s) {
+    if (s.equals("NORMAL"))
+      return NORMAL;
+    if (s.equals("AIR"))
+      return AIR;
+    if (s.equals("EXPRESS"))
+      return EXPRESS;
+    if (s.equals("BY_HAND"))
+      return BY_HAND;
+
+    throw new BadEntryException("Invalid service type");
   }
 
   // Format: BOX|id|tipo-de-serviço|id-fornecedor|preço|valor-crítico|exemplares
@@ -80,9 +102,14 @@ public class MyParser {
     if (components.length != 7)
       throw new BadEntryException("wrongr number of fields in box description  (7) " + line);
 
-    // ...
+    String id = components[1];
+
+    String supplierId = components[3];
     int price = Integer.parseInt(components[4]);
-    // add code here
+    int criticalValue = Integer.parseInt(components[5])
+
+
+    _store.registerClient(id, name, address);
   }
 
   // Format: BOOK|id|título|autor|isbn|id-fornecedor|preço|valor-crítico|exemplares

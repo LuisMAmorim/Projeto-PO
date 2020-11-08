@@ -9,5 +9,5 @@ public abstract class Transaction {
 		return _cost;
 	}
 
-	public abstract String toString()
+	public abstract String toString();
 }
