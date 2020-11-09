@@ -1,26 +1,33 @@
 package woo.app.products;
 
+import java.util.List;
+
 import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
-//FIXME import other classes
+
+import woo.core.Product;
+import woo.app.products.Message;
 
 /**
  * Show all products.
  */
 public class DoShowAllProducts extends Command<StoreManager> {
 
-  //FIXME add input fields
-
   public DoShowAllProducts(StoreManager receiver) {
     super(Label.SHOW_ALL_PRODUCTS, receiver);
-    //FIXME init input fields
   }
 
   @Override
   public final void execute() throws DialogException {
-    //FIXME implement command
+    List<Product> products = _receiver.getAllProducts();
+
+    for (Product p : products) {
+    	_display.addLine(p.toString());
+    }
+
+    _display.display();
   }
 
 }

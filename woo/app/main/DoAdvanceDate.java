@@ -6,6 +6,7 @@ import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
 
 import woo.app.exception.InvalidDateException;
+import woo.app.main.Message;
 
 /**
  * Advance current date.

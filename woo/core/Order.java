@@ -1,5 +1,8 @@
 package woo.core;
 
+import java.util.List;
+import java.util.LinkedList;
+
 public class Order extends Transaction {
 	private int _paymentDate;
 	private int _amountPaid;
@@ -14,5 +17,5 @@ public class Order extends Transaction {
 
 	}
 	
-	public String toString();
+	public abstract String toString();
 }

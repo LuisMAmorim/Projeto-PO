@@ -5,7 +5,13 @@ import java.io.Serializable;
 
 import java.io.IOException;
 
+import java.util.List;
+import java.util.LinkedList;
+
 import woo.core.exception.BadEntryException;
+import woo.core.exception.UnknownClientException;
+import woo.core.exception.DuplicateClientException;
+import woo.core.exception.UnknownSupplierException;
 
 import woo.core.Product;
 import woo.core.Box;
@@ -46,12 +52,12 @@ public class Store implements Serializable /* throws InvalidDateException */{
 	private void registerProduct(Product product) {
 		int i = 0;
 
-		for (Supplier p : _products) {
-			if (product.compareTo(s) < 0)
+		for (Product p : _products) {
+			if (product.compareTo(p) < 0)
 				break;
 			i++;
 		}
-		_product.add(i, product);
+		_products.add(i, product);
 	}
 
 	public void registerBox(String id, ServiceLevel serviceLevel, String supplierId, int price, int crit, int q) {
@@ -75,26 +81,36 @@ public class Store implements Serializable /* throws InvalidDateException */{
 
 	/* Clients */
 
-	public void registerClient(String id, String name, String address) {
+	public void registerClient(String id, String name, String address) throws DuplicateClientException {
+		int i = 0;
+		Client client = new Client(id, name, address);
 
+		for (Client cl : _clients) {
+			if (client.compareTo(cl) == 0)
+				throw new DuplicateClientException();
+			if (client.compareTo(cl) < 0)
+				break;
+			i++;
+		}
+		_clients.add(i, client);
 	}
 
 	public List<Client> getAllClients() {
 		return _clients;
 	}
 
-	public Client getClient(String id) {
+	public Client getClient(String id) throws UnknownClientException {
 		for (Client c : _clients)
 			if (c.getId().equals(id))
 				return c;
-		/* se nao existir? */
+		throw new UnknownClientException();
 	}
 
 	/* Suppliers */
 
 	public void registerSupplier(String id, String name, String address) {
 		int i = 0;
-		Supplier supplier = new Supplier(id, name, adress);
+		Supplier supplier = new Supplier(id, name, address);
 
 		for (Supplier s : _suppliers) {
 			if (supplier.compareTo(s) < 0)
@@ -104,14 +120,15 @@ public class Store implements Serializable /* throws InvalidDateException */{
 		_suppliers.add(i, supplier);
 	}
 
-	public List<Supplier> getSuppliers() {
+	public List<Supplier> getAllSuppliers() {
 		return _suppliers;
 	}
 
-	public Supplier getSupplier(String id) {
-		for (Client s : _suppliers)
+	public Supplier getSupplier(String id) throws UnknownSupplierException {
+		for (Supplier s : _suppliers)
 			if (s.getId().equals(id))
 				return s;
+		throw new UnknownSupplierException();
 	}
 
 	/* ... */

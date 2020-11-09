@@ -14,7 +14,7 @@ public class Book extends Product {
 
 	@Override
 	public String toString() {
-		return "BOOK|" + getId() + "|" + getSupplier().getId() + "|" + getPrice() + "|" +
-		getCriticalValue() + "|" + getCurrentQuantity() + "|" + _title + "|" + _author + "|" + _isbn;
+		return String.join("|", "BOOK", getId(), getSupplier().getId(), Integer.toString(getPrice()),
+			Integer.toString(getCriticalValue()), Integer.toString(getCurrentQuantity()), _title, _author, _isbn);
 	}
 }

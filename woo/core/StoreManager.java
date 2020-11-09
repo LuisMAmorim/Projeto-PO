@@ -3,12 +3,16 @@ package woo.core;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 
+import java.util.List;
+import java.util.LinkedList;
+
 import woo.core.exception.UnavailableFileException;
 import woo.core.exception.MissingFileAssociationException;
 import woo.core.exception.ImportFileException;
 import woo.core.exception.BadEntryException;
 
-import woo.core.exception.AdvanceDateException;
+import woo.core.exception.UnknownClientException;
+import woo.core.exception.DuplicateClientException;
 
 /**
  * StoreManager: façade for the core classes.
@@ -28,7 +32,7 @@ public class StoreManager {
 
 	}
 
-	public void registerClient(String id, String name, String address) {
+	public void registerClient(String id, String name, String address) throws DuplicateClientException {
 		_store.registerClient(id, name, address);
 	}
 
@@ -36,12 +40,16 @@ public class StoreManager {
 		return _store.getAllClients();
 	}
 
-	public Client getClient(String id) {
+	public Client getClient(String id) throws UnknownClientException {
 		return _store.getClient(id);
 	}
 
 	public void updatePrice(String productId, int price) {
 		
+	}
+
+	public List<Supplier> getSuppliers() {
+		return _store.getAllSuppliers();
 	}
 
 	public int getDate() {
@@ -50,6 +58,10 @@ public class StoreManager {
 
   	public void advanceDate(int numDays) {
 		_store.advanceDate(numDays);
+	}
+
+	public List<Product> getAllProducts() {
+		return _store.getAllProducts();
 	}
 
 	/* ... */

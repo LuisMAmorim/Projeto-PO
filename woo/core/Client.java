@@ -39,13 +39,19 @@ public class Client {
 	public String toString() {
 		int amount;
 		int amountPaid;
+		Sale s;
 
-		for (Sale s : _sales) {
+		for (Transaction t : _sales) {
+			s = (Sale)t;
 			amount += s.getCost();
 			amountPaid += s.getPaid();
 		}
 
 		return String.join("|", _id, _name, _address,
 			Integer.toString(amount), Integer.toString(amountPaid));
+	}
+
+	public int compareTo(Client other) {
+		return _id.toUpperCase().compareTo(other.getId().toUpperCase());
 	}
 }

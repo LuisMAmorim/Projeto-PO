@@ -4,23 +4,34 @@ import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
-//FIXME import other classes
+
+import woo.core.Client;
+import woo.core.exception.UnknownClientException;
+import woo.app.exception.UnknownClientKeyException;
+import woo.app.clients.Message;
 
 /**
  * Show client.
  */
 public class DoShowClient extends Command<StoreManager> {
 
-  //FIXME add input fields
+  private Input<String> _clientKey;
 
   public DoShowClient(StoreManager storefront) {
     super(Label.SHOW_CLIENT, storefront);
-    //FIXME init input fields
+    _clientKey = _form.addStringInput(Message.requestClientKey());
   }
 
   @Override
   public void execute() throws DialogException {
-    //FIXME implement command
+    _form.parse();
+
+    try {
+    	Client cl = _receiver.getClient(_clientKey.value());
+    	_display.popup(cl.toString());
+    } catch (UnknownClientException x) {
+    	throw new UnknownClientKeyException(_clientKey.value());
+    }
   }
 
 }

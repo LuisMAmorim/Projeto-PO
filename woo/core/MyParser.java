@@ -121,8 +121,8 @@ public class MyParser {
     ServiceLevel serviceLevel = parseServiceLevel(components[2]);
     String supplierId = components[3];
     int price = Integer.parseInt(components[4]);
-    int crit = Integer.parseInt(components[5])
-    int q = Integer.parseInt(components[6])
+    int crit = Integer.parseInt(components[5]);
+    int q = Integer.parseInt(components[6]);
 
     _store.registerBox(id, serviceLevel, supplierId, price, crit, q);
   }
@@ -138,8 +138,8 @@ public class MyParser {
     String isbn = components[4];
     String supplierId = components[5];
     int price = Integer.parseInt(components[6]);
-    int crit = Integer.parseInt(components[7])
-    int q = Integer.parseInt(components[8])
+    int crit = Integer.parseInt(components[7]);
+    int q = Integer.parseInt(components[8]);
 
     _store.registerBook(id, title, author, isbn, supplierId, price, crit, q);
   }
@@ -151,11 +151,11 @@ public class MyParser {
 
     String id = components[1];
     ServiceLevel serviceLevel = parseServiceLevel(components[2]);
-    ServiceLevel serviceQuality = parseServiceQuality(components[3]);
+    ServiceQuality serviceQuality = parseServiceQuality(components[3]);
     String supplierId = components[4];
     int price = Integer.parseInt(components[5]);
-    int crit = Integer.parseInt(components[6])
-    int q = Integer.parseInt(components[7])
+    int crit = Integer.parseInt(components[6]);
+    int q = Integer.parseInt(components[7]);
 
     _store.registerContainer(id, serviceLevel, serviceQuality, supplierId, price, crit, q);
   }

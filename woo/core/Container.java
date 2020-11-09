@@ -21,7 +21,8 @@ public class Container extends Box {
 
 	@Override
 	public String toString() {
-		return "CONTAINER|" + getId() + "|" + getSupplier().getId() + "|" + getPrice() + "|" +
-		getCriticalValue() + "|" + getCurrentQuantity() + "|" + getServiceLevel() + "|" + _serviceQuality;
+		return String.join("|", "CONTAINER", getId(), getSupplier().getId(), Integer.toString(getPrice()),
+			Integer.toString(getCriticalValue()),Integer.toString(getCurrentQuantity()),
+			getServiceLevel().toString(), _serviceQuality.toString());
 	}
 }
