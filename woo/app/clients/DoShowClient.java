@@ -8,7 +8,6 @@ import woo.core.StoreManager;
 import woo.core.Client;
 import woo.core.exception.UnknownClientException;
 import woo.app.exception.UnknownClientKeyException;
-import woo.app.clients.Message;
 
 /**
  * Show client.

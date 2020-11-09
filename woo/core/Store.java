@@ -13,9 +13,6 @@ import woo.core.exception.UnknownClientException;
 import woo.core.exception.DuplicateClientException;
 import woo.core.exception.UnknownSupplierException;
 
-import woo.core.Product;
-import woo.core.Box;
-
 /**
  * Class Store implements a store.
  */
@@ -131,8 +128,6 @@ public class Store implements Serializable /* throws InvalidDateException */{
 		throw new UnknownSupplierException();
 	}
 
-	/* ... */
-
 
 	/**
 	* @param txtfile filename to be loaded.
@@ -140,7 +135,8 @@ public class Store implements Serializable /* throws InvalidDateException */{
 	* @throws BadEntryException
 	*/
 	void importFile(String txtfile) throws IOException, BadEntryException /* FIXME maybe other exceptions */ {
-	//FIXME implement method
+		MyParser parser = new MyParser(this);
+		parser.parseFile(txtfile);
 	}
 
 }
