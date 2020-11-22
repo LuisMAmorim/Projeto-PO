@@ -13,5 +13,9 @@ public class Sale extends Transaction {
 		return _amountPaid;
 	}
 
-	public abstract String toString();
+	/*
+	public String toString() {
+
+	}
+	*/
 }

@@ -17,5 +17,9 @@ public class Order extends Transaction {
 
 	}
 	
-	public abstract String toString();
+	/*
+	public String toString() {
+
+	}
+	*/
 }

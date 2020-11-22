@@ -13,18 +13,19 @@ import woo.app.main.Message;
  */
 public class DoAdvanceDate extends Command<StoreManager> {
   
-  Input<Integer> numDays = _form.addIntegerInput(Message.requestDaysToAdvance());
+  Input<Integer> _numDays;
 
   public DoAdvanceDate(StoreManager receiver) {
     super(Label.ADVANCE_DATE, receiver);
-    numDays = _form.addIntegerInput(Message.requestDaysToAdvance());
+    _numDays = _form.addIntegerInput(Message.requestDaysToAdvance());
   }
 
   @Override
   public final void execute() throws DialogException {
-  	if (numDays.value() > 0)
-    	_receiver.advanceDate(numDays.value());
+    _form.parse();
+  	if (_numDays.value() > 0)
+    	_receiver.advanceDate(_numDays.value());
     else
-  		throw new InvalidDateException(_receiver.getDate() + numDays.value());
+  		throw new InvalidDateException(_receiver.getDate() + _numDays.value());
   }
 }

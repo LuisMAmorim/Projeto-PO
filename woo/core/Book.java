@@ -1,11 +1,14 @@
 package woo.core;
 
+import woo.core.exception.InvalidPriceException;
+
 public class Book extends Product {
 	private String _title;
 	private String _author;
 	private String _isbn;
 
-	public Book(String id, String title, String author, String isbn, Supplier supplier, int price, int crit, int q) {
+	public Book(String id, String title, String author, String isbn, Supplier supplier, int price, int crit, int q)	
+	throws InvalidPriceException {
 		super(id, supplier, price, crit, q);
 		_title = title;
 		_author = author;
@@ -14,7 +17,15 @@ public class Book extends Product {
 
 	@Override
 	public String toString() {
-		return String.join("|", "BOOK", getId(), getSupplier().getId(), Integer.toString(getPrice()),
-			Integer.toString(getCriticalValue()), Integer.toString(getCurrentQuantity()), _title, _author, _isbn);
+		return String.join("|", "BOOK",
+			getId(),
+			getSupplier().getId(),
+			Integer.toString(getPrice()),
+			Integer.toString(getCriticalValue()),
+			Integer.toString(getCurrentQuantity()),
+			_title,
+			_author,
+			_isbn
+		);
 	}
 }

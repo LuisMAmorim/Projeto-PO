@@ -37,8 +37,8 @@ public class Client {
 	}
 
 	public String toString() {
-		int amount;
-		int amountPaid;
+		int amount = 0;
+		int amountPaid = 0;
 		Sale s;
 
 		for (Transaction t : _sales) {

@@ -25,8 +25,8 @@ public class DoOpen extends Command<StoreManager> {
   public final void execute() throws DialogException {
     try {
       _receiver.importFile(_fileName.value());
-    } catch (ImportFileException ufe) {
-      throw new FileOpenFailedException(ufe.getFilename());
+    } catch (ImportFileException e) {
+      throw new FileOpenFailedException(_fileName.value());
     }
   }
 

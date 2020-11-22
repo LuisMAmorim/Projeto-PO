@@ -8,6 +8,11 @@ import woo.core.exception.BadEntryException;
 import woo.core.Store;
 import woo.core.Box;
 import woo.core.Container;
+import woo.core.exception.InvalidServiceLevelException;
+import woo.core.exception.InvalidServiceQualityException;
+import woo.core.exception.InvalidPriceException;
+import woo.core.exception.UnknownSupplierException;
+import woo.core.exception.DuplicateClientException;
 
 
 public class MyParser {
@@ -77,39 +82,11 @@ public class MyParser {
     String name = components[2];
     String address = components[3];
 
-    _store.registerClient(id, name, address);
-  }
-
-  public ServiceLevel parseServiceLevel(String s) {
-    if (s.equals("NORMAL"))
-      return ServiceLevel.NORMAL;
-
-    if (s.equals("AIR"))
-      return ServiceLevel.AIR;
-
-    if (s.equals("EXPRESS"))
-      return ServiceLevel.EXPRESS;
-
-    if (s.equals("BY_HAND"))
-      return ServiceLevel.BY_HAND;
-
-    throw new BadEntryException("Invalid service type");
-  }
-
-  public ServiceQuality parseServiceQuality(String s) {
-    if (s.equals("B4"))
-      return ServiceQuality.B4;
-
-    if (s.equals("C4"))
-      return ServiceQuality.C4;
-
-    if (s.equals("C5"))
-      return ServiceQuality.C5;
-
-    if (s.equals("DL"))
-      return ServiceQuality.DL;
-
-    throw new BadEntryException("Invalid service level");
+    try {
+      _store.registerClient(id, name, address);
+    } catch (DuplicateClientException x) {
+      throw new BadEntryException("Client already exists");
+    }
   }
 
   // Format: BOX|id|tipo-de-serviço|id-fornecedor|preço|valor-crítico|exemplares
@@ -117,14 +94,24 @@ public class MyParser {
     if (components.length != 7)
       throw new BadEntryException("wrongr number of fields in box description  (7) " + line);
 
-    String id = components[1];
-    ServiceLevel serviceLevel = parseServiceLevel(components[2]);
-    String supplierId = components[3];
-    int price = Integer.parseInt(components[4]);
-    int crit = Integer.parseInt(components[5]);
-    int q = Integer.parseInt(components[6]);
-
-    _store.registerBox(id, serviceLevel, supplierId, price, crit, q);
+    try {
+      String id = components[1];
+      String serviceLevel = components[2];
+      String supplierId = components[3];
+      int price = Integer.parseInt(components[4]);
+      int crit = Integer.parseInt(components[5]);
+      int q = Integer.parseInt(components[6]);
+      _store.registerBox(id, serviceLevel, supplierId, price, crit, q);
+    }
+    catch (InvalidServiceLevelException x) {
+      throw new BadEntryException("Unknown service level");
+    }
+    catch (UnknownSupplierException x) {
+      throw new BadEntryException("Unknown supplier");
+    }
+    catch (InvalidPriceException x) {
+      throw new BadEntryException("Invalid price");
+    }
   }
 
   // Format: BOOK|id|título|autor|isbn|id-fornecedor|preço|valor-crítico|exemplares
@@ -132,16 +119,23 @@ public class MyParser {
     if (components.length != 9)
       throw new BadEntryException("Invalid number of fields (9) in box description: " + line);
 
-    String id = components[1];
-    String title = components[2];
-    String author = components[3];
-    String isbn = components[4];
-    String supplierId = components[5];
-    int price = Integer.parseInt(components[6]);
-    int crit = Integer.parseInt(components[7]);
-    int q = Integer.parseInt(components[8]);
-
-    _store.registerBook(id, title, author, isbn, supplierId, price, crit, q);
+    try {
+      String id = components[1];
+      String title = components[2];
+      String author = components[3];
+      String isbn = components[4];
+      String supplierId = components[5];
+      int price = Integer.parseInt(components[6]);
+      int crit = Integer.parseInt(components[7]);
+      int q = Integer.parseInt(components[8]);
+      _store.registerBook(id, title, author, isbn, supplierId, price, crit, q);
+    }
+    catch (UnknownSupplierException x) {
+      throw new BadEntryException("Unknown supplier");
+    }
+    catch (InvalidPriceException x) {
+      throw new BadEntryException("Invalid price");
+    }
   }
 
   // Format: CONTAINER|id|tipo-de-serviço|nível-de-serviço|id-fornecedor|preço|valor-crítico|exemplares
@@ -149,14 +143,27 @@ public class MyParser {
     if (components.length != 8)
       throw new BadEntryException("Invalid number of fields (8) in container description: " + line);
 
-    String id = components[1];
-    ServiceLevel serviceLevel = parseServiceLevel(components[2]);
-    ServiceQuality serviceQuality = parseServiceQuality(components[3]);
-    String supplierId = components[4];
-    int price = Integer.parseInt(components[5]);
-    int crit = Integer.parseInt(components[6]);
-    int q = Integer.parseInt(components[7]);
-
-    _store.registerContainer(id, serviceLevel, serviceQuality, supplierId, price, crit, q);
+    try {
+      String id = components[1];
+      String serviceLevel = components[2];
+      String serviceQuality = components[3];
+      String supplierId = components[4];
+      int price = Integer.parseInt(components[5]);
+      int crit = Integer.parseInt(components[6]);
+      int q = Integer.parseInt(components[7]);
+      _store.registerContainer(id, serviceLevel, serviceQuality, supplierId, price, crit, q);
+    }
+    catch (InvalidServiceLevelException x) {
+      throw new BadEntryException("Unknown service level");
+    }
+    catch (InvalidServiceQualityException x) {
+      throw new BadEntryException("Unknown service quality");
+    }
+    catch (UnknownSupplierException x) {
+      throw new BadEntryException("Unknown supplier");
+    }
+    catch (InvalidPriceException x) {
+      throw new BadEntryException("Invalid price");
+    }
   }
 }

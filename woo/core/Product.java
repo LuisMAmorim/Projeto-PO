@@ -2,27 +2,32 @@ package woo.core;
 
 import java.util.List;
 import java.util.LinkedList;
-
+import woo.core.exception.InvalidPriceException;
 
 public abstract class Product {
+	private String _id;
+	private Supplier _supplier;
 	private int _price;
 	private int _criticalValue;
 	private int _currentQuantity;
-	private String _id;
-	private Supplier _supplier;
 	private List<Client> _clientsMuted;
 
-	public Product(String id, Supplier supplier, int price, int crit, int q) {
+	public Product(String id, Supplier supplier, int price, int crit, int q)
+	throws InvalidPriceException {
 		_id = id;
-		_price = price;
+		_supplier = supplier;
+		setPrice(price);
 		_criticalValue = crit;
 		_currentQuantity = q;
-		_supplier = supplier;
 		_clientsMuted = new LinkedList<Client>();
 	}
 
 	public String getId() {
 		return _id;
+	}
+
+	public Supplier getSupplier() {
+		return _supplier;
 	}
 
 	public int getPrice() {
@@ -37,8 +42,11 @@ public abstract class Product {
 		return _currentQuantity;
 	}
 
-	public Supplier getSupplier() {
-		return _supplier;
+	public void setPrice(int price) throws InvalidPriceException {
+		if (price > 0)
+			_price = price;
+		else
+			throw new InvalidPriceException();
 	}
 
 	public int compareTo(Product other) {

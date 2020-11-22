@@ -26,6 +26,7 @@ public class DoRegisterClient extends Command<StoreManager> {
 
   @Override
   public void execute() throws DialogException {
+    _form.parse();
   	try {
   		_receiver.registerClient(_id.value(), _name.value(), _address.value());
   	} catch (DuplicateClientException x) {

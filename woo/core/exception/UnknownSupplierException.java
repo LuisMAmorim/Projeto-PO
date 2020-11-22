@@ -1,6 +1,6 @@
 package woo.core.exception;
 
-/** Exception for unknown client keys. */
+/** Exception for unknown supplier keys. */
 public class UnknownSupplierException extends Exception {
 
   /** Serial number for serialization. */

@@ -11,8 +11,14 @@ import woo.core.exception.MissingFileAssociationException;
 import woo.core.exception.ImportFileException;
 import woo.core.exception.BadEntryException;
 
+import woo.core.exception.UnknownProductException;
 import woo.core.exception.UnknownClientException;
+import woo.core.exception.UnknownSupplierException;
 import woo.core.exception.DuplicateClientException;
+
+import woo.core.exception.InvalidServiceLevelException;
+import woo.core.exception.InvalidServiceQualityException;
+import woo.core.exception.InvalidPriceException;
 
 /**
  * StoreManager: façade for the core classes.
@@ -32,25 +38,7 @@ public class StoreManager {
 
 	}
 
-	public void registerClient(String id, String name, String address) throws DuplicateClientException {
-		_store.registerClient(id, name, address);
-	}
-
-	public List<Client> getAllClients() {
-		return _store.getAllClients();
-	}
-
-	public Client getClient(String id) throws UnknownClientException {
-		return _store.getClient(id);
-	}
-
-	public void updatePrice(String productId, int price) {
-		
-	}
-
-	public List<Supplier> getSuppliers() {
-		return _store.getAllSuppliers();
-	}
+	/* Date */
 
 	public int getDate() {
     	return _store.getDate();
@@ -60,9 +48,38 @@ public class StoreManager {
 		_store.advanceDate(numDays);
 	}
 
+	/* Products */
+
 	public List<Product> getAllProducts() {
 		return _store.getAllProducts();
 	}
+
+	public void changePrice(String productId, int price)
+	throws UnknownProductException, InvalidPriceException {
+		_store.changePrice(productId, price);
+	}
+
+	/* Clients */
+
+	public Client getClient(String id) throws UnknownClientException {
+		return _store.getClient(id);
+	}
+
+	public List<Client> getAllClients() {
+		return _store.getAllClients();
+	}
+
+	public void registerClient(String id, String name, String address) throws DuplicateClientException {
+		_store.registerClient(id, name, address);
+	}
+	
+	/* Suppliers */
+
+	public List<Supplier> getSuppliers() {
+		return _store.getAllSuppliers();
+	}
+
+	
 
 	/* ... */
 
@@ -91,7 +108,7 @@ public class StoreManager {
 	* @throws UnavailableFileException
 	*/
 	public void load(String filename) throws UnavailableFileException {
-	//FIXME implement serialization method
+		//FIXME implement serialization method
 	}
 
 	/**
@@ -99,11 +116,11 @@ public class StoreManager {
 	* @throws ImportFileException
 	*/
 	public void importFile(String textfile) throws ImportFileException {
-	try {
-	  _store.importFile(textfile);
-	} catch (IOException | BadEntryException /* FIXME maybe other exceptions */ e) {
-	  throw new ImportFileException(textfile);
-	}
+		try {
+		  _store.importFile(textfile);
+		} catch (IOException | BadEntryException /* FIXME maybe other exceptions */ e) {
+		  throw new ImportFileException(textfile);
+		}
 	}
 
 }
