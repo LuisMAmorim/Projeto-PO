@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.io.IOException;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import woo.core.exception.BadEntryException;
@@ -13,7 +14,8 @@ import woo.core.exception.BadEntryException;
 import woo.core.exception.UnknownProductException;
 import woo.core.exception.UnknownClientException;
 import woo.core.exception.UnknownSupplierException;
-import woo.core.exception.DuplicateClientException;
+
+import woo.core.exception.DuplicateKeyException;
 
 import woo.core.exception.InvalidServiceLevelException;
 import woo.core.exception.InvalidServiceQualityException;
@@ -35,11 +37,14 @@ public class Store implements Serializable /* throws InvalidDateException */{
 	private List<Client> _clients;
 	private List<Supplier> _suppliers;
 	private List<Transaction> _transactions;
+	//private List<Notification> _notifications;
 
 	public Store() {
 		_products = new LinkedList<Product>();
 		_clients = new LinkedList<Client>();
 		_suppliers = new LinkedList<Supplier>();
+		_transactions = new ArrayList<Transaction>();
+		//_notifications = new LinkedList<Notification>();
 		_date = 0;
 	}
 
@@ -59,10 +64,13 @@ public class Store implements Serializable /* throws InvalidDateException */{
 		return _products;
 	}
 
-	private void registerProduct(Product product) throws InvalidPriceException {
+	private void registerProduct(Product product)
+	throws DuplicateKeyException, InvalidPriceException {
 		int i = 0;
 
 		for (Product p : _products) {
+			if (product.compareTo(p) == 0)
+				throw new DuplicateKeyException();
 			if (product.compareTo(p) < 0)
 				break;
 			i++;
@@ -71,19 +79,19 @@ public class Store implements Serializable /* throws InvalidDateException */{
 	}
 
 	public void registerBox(String id, String s, String supplierId, int price, int crit, int q)
-	throws InvalidServiceLevelException , UnknownSupplierException, InvalidPriceException {
+	throws DuplicateKeyException, InvalidServiceLevelException , UnknownSupplierException, InvalidPriceException {
 		Box box = new Box(id, s, getSupplier(supplierId), price, crit, q);
 		registerProduct(box);
 	}
 
 	public void registerBook(String id, String title, String author, String isbn, String supplierId, int price, int crit, int q)
-	throws UnknownSupplierException, InvalidPriceException {
+	throws DuplicateKeyException, UnknownSupplierException, InvalidPriceException {
 		Book book = new Book(id, title, author, isbn, getSupplier(supplierId), price, crit, q);
 		registerProduct(book);
 	}
 
 	public void registerContainer(String id, String s, String quality, String supplierId, int price, int crit, int q)
-	throws InvalidServiceLevelException, InvalidServiceQualityException, UnknownSupplierException, InvalidPriceException {
+	throws DuplicateKeyException, InvalidServiceLevelException, InvalidServiceQualityException, UnknownSupplierException, InvalidPriceException {
 		Container container = new Container(id, s, quality, getSupplier(supplierId), price, crit, q);
 		registerProduct(container);
 	}
@@ -109,13 +117,13 @@ public class Store implements Serializable /* throws InvalidDateException */{
 		return _clients;
 	}
 
-	public void registerClient(String id, String name, String address) throws DuplicateClientException {
+	public void registerClient(String id, String name, String address) throws DuplicateKeyException {
 		int i = 0;
 		Client client = new Client(id, name, address);
 
 		for (Client cl : _clients) {
 			if (client.compareTo(cl) == 0)
-				throw new DuplicateClientException();
+				throw new DuplicateKeyException();
 			if (client.compareTo(cl) < 0)
 				break;
 			i++;

@@ -9,14 +9,14 @@ enum ClientStatus {
 }
 
 
-public class Client {
+public class Client implements Observer {
 	private String _id;
 	private String _name;
 	private String _address;
 	private ClientStatus _status;
 	private int _points;
 	private List<Notification> _notifications;
-	private List<Transaction> _sales;
+	private List<Transaction> _transactions;
 
 	public Client(String id, String name, String address) {
 		_id = id;
@@ -25,7 +25,7 @@ public class Client {
 		_status = ClientStatus.NORMAL;
 		_points = 0;
 		_notifications = new LinkedList<Notification>();
-		_sales = new LinkedList<Transaction>();
+		_transactions = new LinkedList<Transaction>();
 	}
 
 	public String getId() {
@@ -33,7 +33,11 @@ public class Client {
 	}
 
 	public List<Transaction> getTransactions() {
-		return _sales;
+		return _transactions;
+	}
+
+	public void addTransaction(Sale sale) {
+		_transactions.add(sale);
 	}
 
 	public String toString() {
@@ -41,17 +45,20 @@ public class Client {
 		int amountPaid = 0;
 		Sale s;
 
-		for (Transaction t : _sales) {
+		for (Transaction t : _transactions) {
 			s = (Sale)t;
 			amount += s.getCost();
 			amountPaid += s.getPaid();
 		}
 
-		return String.join("|", _id, _name, _address,
-			Integer.toString(amount), Integer.toString(amountPaid));
+		return String.format("%s|%s|%s|%d|%d", _id, _name, _address, amount, amountPaid);
 	}
 
 	public int compareTo(Client other) {
 		return _id.toUpperCase().compareTo(other.getId().toUpperCase());
+	}
+
+	public void notify(Notification notif) {
+		_notifications.add(notif);
 	}
 }

@@ -15,6 +15,7 @@ public class Book extends Product {
 		_isbn = isbn;
 	}
 
+	/*
 	@Override
 	public String toString() {
 		return String.join("|", "BOOK",
@@ -27,5 +28,14 @@ public class Book extends Product {
 			_author,
 			_isbn
 		);
+	}
+	*/
+
+	public String getProductType() {
+		return "BOOK";
+	}
+
+	public String getExtraInformation() {
+		return String.format("%s|%s|%s", _title, _author, _isbn);
 	}
 }

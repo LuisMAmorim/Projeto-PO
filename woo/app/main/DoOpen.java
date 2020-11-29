@@ -23,6 +23,7 @@ public class DoOpen extends Command<StoreManager> {
   /** @see pt.tecnico.po.ui.Command#execute() */
   @Override
   public final void execute() throws DialogException {
+    _form.parse();
     try {
       _receiver.importFile(_fileName.value());
     } catch (ImportFileException e) {

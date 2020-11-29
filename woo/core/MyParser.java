@@ -12,7 +12,7 @@ import woo.core.exception.InvalidServiceLevelException;
 import woo.core.exception.InvalidServiceQualityException;
 import woo.core.exception.InvalidPriceException;
 import woo.core.exception.UnknownSupplierException;
-import woo.core.exception.DuplicateClientException;
+import woo.core.exception.DuplicateKeyException;
 
 
 public class MyParser {
@@ -84,7 +84,7 @@ public class MyParser {
 
     try {
       _store.registerClient(id, name, address);
-    } catch (DuplicateClientException x) {
+    } catch (DuplicateKeyException x) {
       throw new BadEntryException("Client already exists");
     }
   }
@@ -102,6 +102,9 @@ public class MyParser {
       int crit = Integer.parseInt(components[5]);
       int q = Integer.parseInt(components[6]);
       _store.registerBox(id, serviceLevel, supplierId, price, crit, q);
+    }
+    catch (DuplicateKeyException x) {
+      throw new BadEntryException("Product already exists");
     }
     catch (InvalidServiceLevelException x) {
       throw new BadEntryException("Unknown service level");
@@ -130,6 +133,9 @@ public class MyParser {
       int q = Integer.parseInt(components[8]);
       _store.registerBook(id, title, author, isbn, supplierId, price, crit, q);
     }
+    catch (DuplicateKeyException x) {
+      throw new BadEntryException("Product already exists");
+    }
     catch (UnknownSupplierException x) {
       throw new BadEntryException("Unknown supplier");
     }
@@ -152,6 +158,9 @@ public class MyParser {
       int crit = Integer.parseInt(components[6]);
       int q = Integer.parseInt(components[7]);
       _store.registerContainer(id, serviceLevel, serviceQuality, supplierId, price, crit, q);
+    }
+    catch (DuplicateKeyException x) {
+      throw new BadEntryException("Product already exists");
     }
     catch (InvalidServiceLevelException x) {
       throw new BadEntryException("Unknown service level");

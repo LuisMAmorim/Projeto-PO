@@ -39,6 +39,7 @@ public class Box extends Product {
 		return _serviceLevel;
 	}
 
+	/*
 	@Override
 	public String toString() {
 		return String.join("|", "BOX",
@@ -49,5 +50,14 @@ public class Box extends Product {
 			Integer.toString(getCurrentQuantity()),
 			_serviceLevel.toString()
 		);
+	}
+	*/
+
+	public String getProductType() {
+		return "BOX";
+	}
+
+	public String getExtraInformation() {
+		return _serviceLevel.toString();
 	}
 }

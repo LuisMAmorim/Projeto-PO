@@ -14,7 +14,7 @@ import woo.core.exception.BadEntryException;
 import woo.core.exception.UnknownProductException;
 import woo.core.exception.UnknownClientException;
 import woo.core.exception.UnknownSupplierException;
-import woo.core.exception.DuplicateClientException;
+import woo.core.exception.DuplicateKeyException;
 
 import woo.core.exception.InvalidServiceLevelException;
 import woo.core.exception.InvalidServiceQualityException;
@@ -59,6 +59,21 @@ public class StoreManager {
 		_store.changePrice(productId, price);
 	}
 
+	public void registerBox(String id, String s, String supplierId, int price, int crit, int q)
+	throws DuplicateKeyException, InvalidServiceLevelException , UnknownSupplierException, InvalidPriceException {
+		_store.registerBox(id, s, supplierId, price, crit, q);
+	}
+
+	public void registerBook(String id, String title, String author, String isbn, String supplierId, int price, int crit, int q)
+	throws DuplicateKeyException, UnknownSupplierException, InvalidPriceException {
+		_store.registerBook(id, title, author, isbn, supplierId, price, crit, q);
+	}
+
+	public void registerContainer(String id, String s, String quality, String supplierId, int price, int crit, int q)
+	throws DuplicateKeyException, InvalidServiceLevelException, InvalidServiceQualityException, UnknownSupplierException, InvalidPriceException {
+		_store.registerContainer(id, s, quality, supplierId, price, crit, q);
+	}
+
 	/* Clients */
 
 	public Client getClient(String id) throws UnknownClientException {
@@ -69,7 +84,7 @@ public class StoreManager {
 		return _store.getAllClients();
 	}
 
-	public void registerClient(String id, String name, String address) throws DuplicateClientException {
+	public void registerClient(String id, String name, String address) throws DuplicateKeyException {
 		_store.registerClient(id, name, address);
 	}
 	

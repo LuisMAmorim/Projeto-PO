@@ -39,7 +39,7 @@ public class Supplier {
 	}
 
 	public String toString() {
-		return String.join("|", _id, _name, _address);
+		return String.format("%s|%s|%s", _id, _name, _address);
 	}
 
 	public int compareTo(Supplier other) {

@@ -10,7 +10,7 @@ public abstract class Product {
 	private int _price;
 	private int _criticalValue;
 	private int _currentQuantity;
-	private List<Client> _clientsMuted;
+	private List<Observer> _observers;
 
 	public Product(String id, Supplier supplier, int price, int crit, int q)
 	throws InvalidPriceException {
@@ -19,16 +19,18 @@ public abstract class Product {
 		setPrice(price);
 		_criticalValue = crit;
 		_currentQuantity = q;
-		_clientsMuted = new LinkedList<Client>();
+		_observers = new LinkedList<Observer>();
 	}
 
 	public String getId() {
 		return _id;
 	}
 
+	/*
 	public Supplier getSupplier() {
 		return _supplier;
 	}
+	*/
 
 	public int getPrice() {
 		return _price;
@@ -53,5 +55,19 @@ public abstract class Product {
 		return _id.toUpperCase().compareTo(other.getId().toUpperCase());
 	}
 
-	public abstract String toString();
+	public final String toString() {
+		return String.format("%s|%s|%s|%d|%d|%d|%s",
+			getProductType(),
+			_id,
+			_supplier.getId(),
+			_price,
+			_criticalValue,
+			_currentQuantity,
+			getExtraInformation()
+		);
+	}
+
+	public abstract String getProductType();
+
+	public abstract String getExtraInformation();
 }

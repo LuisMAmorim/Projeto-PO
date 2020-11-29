@@ -40,16 +40,28 @@ public class Container extends Box {
 		return _serviceQuality;
 	}
 
+	/*
 	@Override
 	public String toString() {
-		return String.join("|", "CONTAINER",
+		return String.join("CONTAINER|%s|%s|%d|%d|%d|%s|%s"
 			getId(),
 			getSupplier().getId(),
-			Integer.toString(getPrice()),
-			Integer.toString(getCriticalValue()),
-			Integer.toString(getCurrentQuantity()),
+			getPrice(),
+			getCriticalValue(),
+			getCurrentQuantity(),
 			getServiceLevel().toString(),
 			_serviceQuality.toString()
 		);
+	}
+	*/
+
+	@Override
+	public String getProductType() {
+		return "CONTAINER";
+	}
+
+	@Override
+	public String getExtraInformation() {
+		return String.format("%s|%s", super.getExtraInformation(), _serviceQuality);
 	}
 }
