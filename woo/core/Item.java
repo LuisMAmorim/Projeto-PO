@@ -1,6 +1,6 @@
 package woo.core;
 
-import woo.core.exception.InvalidQuantityException;
+import woo.core.exception.NotEnoughException;
 
 public class Item {
 	private int _quantity;
@@ -15,7 +15,7 @@ public class Item {
 		_product.addStock(_quantity);
 	}
 
-	public void removeStock() throws InvalidQuantityException {
+	public void removeStock() throws NotEnoughException {
 		_product.removeStock(_quantity);
 	}
 

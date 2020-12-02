@@ -2,7 +2,7 @@ package woo.core;
 
 import java.util.List;
 import java.util.LinkedList;
-import woo.core.exception.InvalidQuantityException;
+import woo.core.exception.NotEnoughException;
 
 public abstract class Product {
 	private String _id;
@@ -68,9 +68,9 @@ public abstract class Product {
 		_currentQuantity += quantity;
 	}
 
-	public void removeStock(int quantity) throws InvalidQuantityException {
+	public void removeStock(int quantity) throws NotEnoughException {
 		if (_currentQuantity + quantity < 0) {
-			throw new InvalidQuantityException();
+			throw new NotEnoughException();
 		}
 
 		_currentQuantity -= quantity;
