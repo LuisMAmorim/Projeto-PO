@@ -50,8 +50,5 @@ public class DoRegisterProductBook extends Command<StoreManager> {
     catch (UnknownSupplierException x) {
     	throw new UnknownSupplierKeyException(_supplierId.value());
   	}
-  	catch (InvalidPriceException x) {
-  		/* Fails silently. */
-  	}
   }
 }

@@ -70,7 +70,12 @@ public class MyParser {
     String name = components[2];
     String address = components[3];
 
-    _store.registerSupplier(id, name, address);    
+    try {
+      _store.registerSupplier(id, name, address);    
+    } 
+    catch (DuplicateKeyException x) {
+      throw new BadEntryException("Duplicate supplier id");
+    }
   }
 
   // Format: CLIENT|id|nome|endereço
@@ -85,7 +90,7 @@ public class MyParser {
     try {
       _store.registerClient(id, name, address);
     } catch (DuplicateKeyException x) {
-      throw new BadEntryException("Client already exists");
+      throw new BadEntryException("Duplicate client id");
     }
   }
 
@@ -104,16 +109,13 @@ public class MyParser {
       _store.registerBox(id, serviceLevel, supplierId, price, crit, q);
     }
     catch (DuplicateKeyException x) {
-      throw new BadEntryException("Product already exists");
+      throw new BadEntryException("Duplicate product id");
     }
     catch (InvalidServiceLevelException x) {
       throw new BadEntryException("Unknown service level");
     }
     catch (UnknownSupplierException x) {
       throw new BadEntryException("Unknown supplier");
-    }
-    catch (InvalidPriceException x) {
-      throw new BadEntryException("Invalid price");
     }
   }
 
@@ -134,13 +136,10 @@ public class MyParser {
       _store.registerBook(id, title, author, isbn, supplierId, price, crit, q);
     }
     catch (DuplicateKeyException x) {
-      throw new BadEntryException("Product already exists");
+      throw new BadEntryException("Duplicate product id");
     }
     catch (UnknownSupplierException x) {
       throw new BadEntryException("Unknown supplier");
-    }
-    catch (InvalidPriceException x) {
-      throw new BadEntryException("Invalid price");
     }
   }
 
@@ -160,7 +159,7 @@ public class MyParser {
       _store.registerContainer(id, serviceLevel, serviceQuality, supplierId, price, crit, q);
     }
     catch (DuplicateKeyException x) {
-      throw new BadEntryException("Product already exists");
+      throw new BadEntryException("Duplicate product id");
     }
     catch (InvalidServiceLevelException x) {
       throw new BadEntryException("Unknown service level");
@@ -170,9 +169,6 @@ public class MyParser {
     }
     catch (UnknownSupplierException x) {
       throw new BadEntryException("Unknown supplier");
-    }
-    catch (InvalidPriceException x) {
-      throw new BadEntryException("Invalid price");
     }
   }
 }

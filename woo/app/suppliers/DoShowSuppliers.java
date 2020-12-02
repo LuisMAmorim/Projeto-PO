@@ -27,9 +27,9 @@ public class DoShowSuppliers extends Command<StoreManager> {
     	_display.add(s.toString());
     	_display.add("|");
     	if (s.isEnabled())
-    		_display.addLine(Message.yes());
+    		_display.add(Message.yes());
     	else
-    		_display.addLine(Message.no());
+    		_display.add(Message.no());
     }
 
     _display.display();

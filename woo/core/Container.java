@@ -31,7 +31,7 @@ public class Container extends Box {
 	private ServiceQuality _serviceQuality;
 
 	public Container(String id, String s, String quality, Supplier supplier, int price, int crit, int q)
-	throws InvalidServiceLevelException, InvalidServiceQualityException, InvalidPriceException {
+	throws InvalidServiceLevelException, InvalidServiceQualityException {
 		super(id, s, supplier, price, crit, q);
 		_serviceQuality = ServiceQuality.parse(quality);
 	}

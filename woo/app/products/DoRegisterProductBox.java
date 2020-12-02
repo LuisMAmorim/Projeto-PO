@@ -51,8 +51,5 @@ public class DoRegisterProductBox extends Command<StoreManager> {
   	catch (InvalidServiceLevelException x) {
   		throw new UnknownServiceTypeException(_serviceType.value());
   	}
-  	catch (InvalidPriceException x) {
-  		/* Fails silently. */
-  	}
   }
 }

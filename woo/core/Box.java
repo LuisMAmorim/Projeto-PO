@@ -30,7 +30,7 @@ public class Box extends Product {
 	private ServiceLevel _serviceLevel;
 
 	public Box(String id, String s, Supplier supplier, int price, int crit, int q)
-	throws InvalidServiceLevelException, InvalidPriceException {
+	throws InvalidServiceLevelException {
 		super(id, supplier, price, crit, q);
 		_serviceLevel = ServiceLevel.parse(s);
 	}

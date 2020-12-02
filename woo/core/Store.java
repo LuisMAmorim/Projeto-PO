@@ -65,7 +65,7 @@ public class Store implements Serializable /* throws InvalidDateException */{
 	}
 
 	private void registerProduct(Product product)
-	throws DuplicateKeyException, InvalidPriceException {
+	throws DuplicateKeyException {
 		int i = 0;
 
 		for (Product p : _products) {
@@ -79,19 +79,19 @@ public class Store implements Serializable /* throws InvalidDateException */{
 	}
 
 	public void registerBox(String id, String s, String supplierId, int price, int crit, int q)
-	throws DuplicateKeyException, InvalidServiceLevelException , UnknownSupplierException, InvalidPriceException {
+	throws DuplicateKeyException, InvalidServiceLevelException , UnknownSupplierException {
 		Box box = new Box(id, s, getSupplier(supplierId), price, crit, q);
 		registerProduct(box);
 	}
 
 	public void registerBook(String id, String title, String author, String isbn, String supplierId, int price, int crit, int q)
-	throws DuplicateKeyException, UnknownSupplierException, InvalidPriceException {
+	throws DuplicateKeyException, UnknownSupplierException {
 		Book book = new Book(id, title, author, isbn, getSupplier(supplierId), price, crit, q);
 		registerProduct(book);
 	}
 
 	public void registerContainer(String id, String s, String quality, String supplierId, int price, int crit, int q)
-	throws DuplicateKeyException, InvalidServiceLevelException, InvalidServiceQualityException, UnknownSupplierException, InvalidPriceException {
+	throws DuplicateKeyException, InvalidServiceLevelException, InvalidServiceQualityException, UnknownSupplierException {
 		Container container = new Container(id, s, quality, getSupplier(supplierId), price, crit, q);
 		registerProduct(container);
 	}
@@ -113,8 +113,20 @@ public class Store implements Serializable /* throws InvalidDateException */{
 		throw new UnknownClientException();
 	}
 
+	public String getClientInfo(String id) throws UnknownClientException {
+		return getClient(id).toString();
+	}
+
 	public List<Client> getAllClients() {
 		return _clients;
+	}
+
+	public List<String> getClientNotifInfo(String id) throws UnknownClientException {
+		List<Notification> notifs = getClient(id).getNotifications();
+		List<String> info = new ArrayList<String>();
+
+		for (Notification n : notifs) info.add(n.toString());
+		return info;
 	}
 
 	public void registerClient(String id, String name, String address) throws DuplicateKeyException {
@@ -129,15 +141,19 @@ public class Store implements Serializable /* throws InvalidDateException */{
 			i++;
 		}
 		_clients.add(i, client);
+
+		for (Product p : _products) p.addObserver(client);
 	}	
 
 	/* Suppliers */
 
-	public void registerSupplier(String id, String name, String address) {
+	public void registerSupplier(String id, String name, String address) throws DuplicateKeyException {
 		int i = 0;
 		Supplier supplier = new Supplier(id, name, address);
 
 		for (Supplier s : _suppliers) {
+			if (supplier.compareTo(s) == 0)
+				throw new DuplicateKeyException();
 			if (supplier.compareTo(s) < 0)
 				break;
 			i++;
@@ -149,11 +165,15 @@ public class Store implements Serializable /* throws InvalidDateException */{
 		return _suppliers;
 	}
 
-	public Supplier getSupplier(String id) throws UnknownSupplierException {
+	private Supplier getSupplier(String id) throws UnknownSupplierException {
 		for (Supplier s : _suppliers)
 			if (s.getId().equals(id)) return s;
 
 		throw new UnknownSupplierException();
+	}
+
+	public String getSupplierInfo(String id) throws UnknownSupplierException {
+		return getSupplier(id).toString();
 	}
 
 

@@ -60,24 +60,32 @@ public class StoreManager {
 	}
 
 	public void registerBox(String id, String s, String supplierId, int price, int crit, int q)
-	throws DuplicateKeyException, InvalidServiceLevelException , UnknownSupplierException, InvalidPriceException {
+	throws DuplicateKeyException, InvalidServiceLevelException , UnknownSupplierException {
 		_store.registerBox(id, s, supplierId, price, crit, q);
 	}
 
 	public void registerBook(String id, String title, String author, String isbn, String supplierId, int price, int crit, int q)
-	throws DuplicateKeyException, UnknownSupplierException, InvalidPriceException {
+	throws DuplicateKeyException, UnknownSupplierException {
 		_store.registerBook(id, title, author, isbn, supplierId, price, crit, q);
 	}
 
 	public void registerContainer(String id, String s, String quality, String supplierId, int price, int crit, int q)
-	throws DuplicateKeyException, InvalidServiceLevelException, InvalidServiceQualityException, UnknownSupplierException, InvalidPriceException {
+	throws DuplicateKeyException, InvalidServiceLevelException, InvalidServiceQualityException, UnknownSupplierException {
 		_store.registerContainer(id, s, quality, supplierId, price, crit, q);
 	}
 
 	/* Clients */
 
-	public Client getClient(String id) throws UnknownClientException {
+	/*public Client getClient(String id) throws UnknownClientException {
 		return _store.getClient(id);
+	}*/
+
+	public String getClientInfo(String id) throws UnknownClientException {
+		return _store.getClientInfo(id);
+	}
+
+	public List<String> getClientNotifInfo(String id) throws UnknownClientException {
+		return _store.getClientNotifInfo(id);
 	}
 
 	public List<Client> getAllClients() {
@@ -94,7 +102,9 @@ public class StoreManager {
 		return _store.getAllSuppliers();
 	}
 
-	
+	public void registerSupplier(String id, String name, String address) throws DuplicateKeyException {
+		_store.registerSupplier(id, name, address);
+	}
 
 	/* ... */
 

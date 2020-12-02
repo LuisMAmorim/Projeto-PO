@@ -12,14 +12,15 @@ public abstract class Product {
 	private int _currentQuantity;
 	private List<Observer> _observers;
 
-	public Product(String id, Supplier supplier, int price, int crit, int q)
-	throws InvalidPriceException {
+	public Product(String id, Supplier supplier, int price, int crit, int q) {
 		_id = id;
 		_supplier = supplier;
-		setPrice(price);
+		_price = price;
 		_criticalValue = crit;
 		_currentQuantity = q;
 		_observers = new LinkedList<Observer>();
+
+		_supplier.addProduct(this);
 	}
 
 	public String getId() {
@@ -44,11 +45,20 @@ public abstract class Product {
 		return _currentQuantity;
 	}
 
-	public void setPrice(int price) throws InvalidPriceException {
-		if (price > 0)
-			_price = price;
-		else
-			throw new InvalidPriceException();
+	public void setPrice(int newPrice) throws InvalidPriceException {
+		if (newPrice <= 0) throw new InvalidPriceException();
+
+		int oldPrice = _price;
+		_price = newPrice;
+
+		if (newPrice < oldPrice) {
+			Notification bargain = new Notification("BARGAIN", this);
+			for (Observer o : _observers) o.notify(bargain);
+		}
+	}
+
+	public void addObserver(Observer obs) {
+		_observers.add(obs);
 	}
 
 	public int compareTo(Product other) {

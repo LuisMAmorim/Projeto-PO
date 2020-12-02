@@ -1,6 +1,7 @@
 package woo.core;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 
@@ -24,7 +25,7 @@ public class Client implements Observer {
 		_address = address;
 		_status = ClientStatus.NORMAL;
 		_points = 0;
-		_notifications = new LinkedList<Notification>();
+		_notifications = new ArrayList<Notification>();
 		_transactions = new LinkedList<Transaction>();
 	}
 
@@ -38,6 +39,16 @@ public class Client implements Observer {
 
 	public void addTransaction(Sale sale) {
 		_transactions.add(sale);
+	}
+
+	public List<Notification> getNotifications() {
+		List<Notification> notifs = _notifications;
+		_notifications.clear();
+		return notifs;
+	}
+
+	public void notify(Notification notif) {
+		_notifications.add(notif);
 	}
 
 	public String toString() {
@@ -56,9 +67,5 @@ public class Client implements Observer {
 
 	public int compareTo(Client other) {
 		return _id.toUpperCase().compareTo(other.getId().toUpperCase());
-	}
-
-	public void notify(Notification notif) {
-		_notifications.add(notif);
 	}
 }

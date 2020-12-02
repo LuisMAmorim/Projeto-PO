@@ -7,8 +7,7 @@ public class Book extends Product {
 	private String _author;
 	private String _isbn;
 
-	public Book(String id, String title, String author, String isbn, Supplier supplier, int price, int crit, int q)	
-	throws InvalidPriceException {
+	public Book(String id, String title, String author, String isbn, Supplier supplier, int price, int crit, int q)	{
 		super(id, supplier, price, crit, q);
 		_title = title;
 		_author = author;

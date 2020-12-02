@@ -58,8 +58,5 @@ public class DoRegisterProductContainer extends Command<StoreManager> {
   	catch (InvalidServiceQualityException x) {
   		throw new UnknownServiceLevelException(_serviceLevel.value());
   	}
-  	catch (InvalidPriceException x) {
-  		/* Fails silently. */
-  	}
   }
 }

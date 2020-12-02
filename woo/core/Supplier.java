@@ -34,6 +34,10 @@ public class Supplier {
 		return _enabled;
 	}
 
+	public void addProduct(Product p) {
+		_products.add(p);
+	}
+
 	public List<Transaction> getTransactions() {
 		return _orders;
 	}
