@@ -2,7 +2,7 @@ package woo.core;
 
 import java.util.List;
 import java.util.LinkedList;
-import woo.core.exception.InvalidPriceException;
+import woo.core.exception.InvalidQuantityException;
 
 public abstract class Product {
 	private String _id;
@@ -45,9 +45,7 @@ public abstract class Product {
 		return _currentQuantity;
 	}
 
-	public void setPrice(int newPrice) throws InvalidPriceException {
-		if (newPrice <= 0) throw new InvalidPriceException();
-
+	public void setPrice(int newPrice) {
 		int oldPrice = _price;
 		_price = newPrice;
 
@@ -59,6 +57,23 @@ public abstract class Product {
 
 	public void addObserver(Observer obs) {
 		_observers.add(obs);
+	}
+
+	public void addStock(int quantity) {
+		if (_currentQuantity == 0) {
+			Notification notif = new Notification("NEW", this);
+			for (Observer o : _observers) o.notify(notif);
+		}
+
+		_currentQuantity += quantity;
+	}
+
+	public void removeStock(int quantity) throws InvalidQuantityException {
+		if (_currentQuantity + quantity < 0) {
+			throw new InvalidQuantityException();
+		}
+
+		_currentQuantity -= quantity;
 	}
 
 	public int compareTo(Product other) {

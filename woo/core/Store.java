@@ -176,6 +176,13 @@ public class Store implements Serializable /* throws InvalidDateException */{
 		return getSupplier(id).toString();
 	}
 
+	/* Transactions */
+
+	public void registerOrder(String supplierId) throws UnknownSupplierException {
+		Order order = new Order(_transactions.size(), _date, getSupplier(supplierId));
+		_transactions.add(order);
+	}
+
 
 	/**
 	* @param txtfile filename to be loaded.

@@ -6,8 +6,6 @@ import java.util.LinkedList;
 public class Order extends Transaction {
 	private Supplier _supplier;
 	private List<Item> _items;
-	private int _paymentDate;
-	private int _amountPaid;
 
 	public Order(int id, int date, Supplier supplier) {
 		super(id, date);
@@ -17,6 +15,7 @@ public class Order extends Transaction {
 
 	public void addItem(Item it) {
 		_items.add(it);
+		it.addStock();
 		incCost(it.getPrice());
 	}
 	

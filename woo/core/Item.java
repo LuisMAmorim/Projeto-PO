@@ -1,5 +1,7 @@
 package woo.core;
 
+import woo.core.exception.InvalidQuantityException;
+
 public class Item {
 	private int _quantity;
 	private Product _product;
@@ -7,6 +9,14 @@ public class Item {
 	public Item(Product product, int quantity) {
 		_product = product;
 		_quantity = quantity;
+	}
+
+	public void addStock()  {
+		_product.addStock(_quantity);
+	}
+
+	public void removeStock() throws InvalidQuantityException {
+		_product.removeStock(_quantity);
 	}
 
 	public int getPrice() {
