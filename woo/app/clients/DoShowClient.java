@@ -6,6 +6,8 @@ import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
 
 import woo.core.Client;
+import woo.core.Notification;
+
 import woo.core.exception.UnknownClientException;
 import woo.app.exception.UnknownClientKeyException;
 import java.util.List;
@@ -27,12 +29,11 @@ public class DoShowClient extends Command<StoreManager> {
     _form.parse();
 
     try {
+    	Client cl = _receiver.getClient(_clientKey.value());
+      List<Notification> notifs = cl.getNotifications();
 
-    	String cl = _receiver.getClientInfo(_clientKey.value());
-      List<String> notifs = _receiver.getClientNotifInfo(_clientKey.value());
-
-    	_display.addLine(cl);
-      for (String n : notifs) _display.addLine(n);
+    	_display.addLine(cl.toString());
+      for (Notification n : notifs) _display.addLine(n.toString());
       _display.display();
     }
     catch (UnknownClientException x) {

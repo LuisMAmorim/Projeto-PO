@@ -19,9 +19,8 @@ public class Sale extends Transaction {
 		return _amountPaid;
 	}
 
-	/*
+	// ADD TOSTRING !!!!
 	public String toString() {
-
+		return "";
 	}
-	*/
 }

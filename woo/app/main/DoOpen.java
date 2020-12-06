@@ -3,8 +3,10 @@ package woo.app.main;
 import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
+import java.io.IOException;
 import woo.core.StoreManager;
-import woo.core.exception.ImportFileException;
+
+import woo.core.exception.UnavailableFileException;
 import woo.app.exception.FileOpenFailedException;
 
 /**
@@ -24,10 +26,15 @@ public class DoOpen extends Command<StoreManager> {
   @Override
   public final void execute() throws DialogException {
     _form.parse();
+    
     try {
-      _receiver.importFile(_fileName.value());
-    } catch (ImportFileException e) {
+      _receiver.load(_fileName.value());
+    }
+    catch (UnavailableFileException x) {
       throw new FileOpenFailedException(_fileName.value());
+    }
+    catch (IOException | ClassNotFoundException x) {
+      /* ??????????????????????????????????? */
     }
   }
 

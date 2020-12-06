@@ -1,7 +1,8 @@
 package woo.core;
 
 import java.util.List;
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class Supplier {
@@ -10,20 +11,15 @@ public class Supplier {
 	private String _address;
 	private boolean _enabled;
 	private List<Product> _products;
-	private List<Transaction> _orders;
+	private List<Transaction> _transactions;
 
 	public Supplier(String id, String name, String address) {
 		_id = id;
 		_name = name;
 		_address = address;
 		_enabled = true;
-		_products = new LinkedList<Product>();
-		_orders = new LinkedList<Transaction>();
-	}
-
-	public boolean toggleActivation() {
-		_enabled = !_enabled;
-		return _enabled;
+		_products = new ArrayList<Product>();
+		_transactions = new ArrayList<Transaction>();
 	}
 
 	public String getId() {
@@ -34,12 +30,17 @@ public class Supplier {
 		return _enabled;
 	}
 
-	public void addProduct(Product p) {
-		_products.add(p);
+	public List<Transaction> getTransactions() {
+		return Collections.unmodifiableList(_transactions);
 	}
 
-	public List<Transaction> getTransactions() {
-		return _orders;
+	boolean toggleActivation() {
+		_enabled = !_enabled;
+		return _enabled;
+	}
+
+	void addProduct(Product p) {
+		_products.add(p);
 	}
 
 	public String toString() {

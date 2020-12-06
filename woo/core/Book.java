@@ -14,22 +14,6 @@ public class Book extends Product {
 		_isbn = isbn;
 	}
 
-	/*
-	@Override
-	public String toString() {
-		return String.join("|", "BOOK",
-			getId(),
-			getSupplier().getId(),
-			Integer.toString(getPrice()),
-			Integer.toString(getCriticalValue()),
-			Integer.toString(getCurrentQuantity()),
-			_title,
-			_author,
-			_isbn
-		);
-	}
-	*/
-
 	public String getProductType() {
 		return "BOOK";
 	}

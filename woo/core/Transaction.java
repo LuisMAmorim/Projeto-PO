@@ -11,15 +11,21 @@ public abstract class Transaction {
 		_cost = 0;
 	}
 
+	public int getId() {
+		return _id;
+	}
+
+	public int getDate() {
+		return _date;
+	}
+
 	public int getCost() {
 		return _cost;
 	}
 
-	protected void incCost(int cost) {
+	void incCost(int cost) {
 		_cost += cost;
 	}
 
-	/*
 	public abstract String toString();
-	*/
 }

@@ -24,6 +24,8 @@ public class UnavailableProductException extends DialogException {
    */
   public UnavailableProductException(String key, int requested, int avaliable) {
     _key = key;
+    _requested = requested;
+    _avaliable = avaliable;
   }
 
   /** @see pt.tecnico.po.ui.DialogException#getMessage() */

@@ -2,7 +2,7 @@ package woo.core;
 
 import java.util.List;
 import java.util.LinkedList;
-import woo.core.exception.NotEnoughException;
+import woo.core.exception.NotEnoughStockException;
 
 public abstract class Product {
 	private String _id;
@@ -27,12 +27,6 @@ public abstract class Product {
 		return _id;
 	}
 
-	/*
-	public Supplier getSupplier() {
-		return _supplier;
-	}
-	*/
-
 	public int getPrice() {
 		return _price;
 	}
@@ -45,21 +39,21 @@ public abstract class Product {
 		return _currentQuantity;
 	}
 
-	public void setPrice(int newPrice) {
+	void setPrice(int newPrice) {
 		int oldPrice = _price;
 		_price = newPrice;
 
 		if (newPrice < oldPrice) {
-			Notification bargain = new Notification("BARGAIN", this);
-			for (Observer o : _observers) o.notify(bargain);
+			Notification notif = new Notification("BARGAIN", this);
+			for (Observer o : _observers) o.notify(notif);
 		}
 	}
 
-	public void addObserver(Observer obs) {
+	void addObserver(Observer obs) {
 		_observers.add(obs);
 	}
 
-	public void addStock(int quantity) {
+	void addStock(int quantity) {
 		if (_currentQuantity == 0) {
 			Notification notif = new Notification("NEW", this);
 			for (Observer o : _observers) o.notify(notif);
@@ -68,16 +62,12 @@ public abstract class Product {
 		_currentQuantity += quantity;
 	}
 
-	public void removeStock(int quantity) throws NotEnoughException {
-		if (_currentQuantity + quantity < 0) {
-			throw new NotEnoughException();
+	void removeStock(int quantity) throws NotEnoughStockException {
+		if (_currentQuantity - quantity < 0) {
+			throw new NotEnoughStockException();
 		}
 
 		_currentQuantity -= quantity;
-	}
-
-	public int compareTo(Product other) {
-		return _id.toUpperCase().compareTo(other.getId().toUpperCase());
 	}
 
 	public final String toString() {
@@ -95,4 +85,8 @@ public abstract class Product {
 	public abstract String getProductType();
 
 	public abstract String getExtraInformation();
+
+	public int compareTo(Product other) {
+		return _id.toUpperCase().compareTo(other.getId().toUpperCase());
+	}
 }

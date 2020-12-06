@@ -25,9 +25,11 @@ public class DoChangePrice extends Command<StoreManager> {
   @Override
   public final void execute() throws DialogException {
     _form.parse();
+    
     try {
     	_receiver.changePrice(_id.value(), _price.value());
-    } catch (UnknownProductException | InvalidPriceException x) {
+    }
+    catch (UnknownProductException x) {
     	/* Fails silently. */
     }
   }

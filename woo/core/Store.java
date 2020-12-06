@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Collections;
 
 import woo.core.exception.BadEntryException;
 
@@ -19,32 +20,28 @@ import woo.core.exception.DuplicateKeyException;
 
 import woo.core.exception.InvalidServiceLevelException;
 import woo.core.exception.InvalidServiceQualityException;
-import woo.core.exception.InvalidPriceException;
 
 /**
  * Class Store implements a store.
  */
-public class Store implements Serializable /* throws InvalidDateException */{
+public class Store implements Serializable, Observer {
 
 	/** Serial number for serialization. */
 	private static final long serialVersionUID = 202009192006L;
 
-	// FIXME define attributes
-	// FIXME define contructor(s)
-	// FIXME define methods
 	private int _date;
 	private List<Product> _products;
 	private List<Client> _clients;
 	private List<Supplier> _suppliers;
 	private List<Transaction> _transactions;
-	//private List<Notification> _notifications;
+	private List<Notification> _notifs;
 
 	public Store() {
 		_products = new LinkedList<Product>();
 		_clients = new LinkedList<Client>();
 		_suppliers = new LinkedList<Supplier>();
 		_transactions = new ArrayList<Transaction>();
-		//_notifications = new LinkedList<Notification>();
+		_notifs = new ArrayList<Notification>();
 		_date = 0;
 	}
 
@@ -75,7 +72,14 @@ public class Store implements Serializable /* throws InvalidDateException */{
 				break;
 			i++;
 		}
+
 		_products.add(i, product);
+		for (Client cl : _clients) product.addObserver(cl);
+		product.addObserver(this);
+	}
+
+	public void notify(Notification notif) {
+		_notifs.add(notif);
 	}
 
 	public void registerBox(String id, String s, String supplierId, int price, int crit, int q)
@@ -97,7 +101,7 @@ public class Store implements Serializable /* throws InvalidDateException */{
 	}
 
 	public void changePrice(String productId, int price)
-	throws UnknownProductException, InvalidPriceException {
+	throws UnknownProductException {
 		for (Product p : _products)
 			if (p.getId().equals(productId)) p.setPrice(price);
 
@@ -113,20 +117,8 @@ public class Store implements Serializable /* throws InvalidDateException */{
 		throw new UnknownClientException();
 	}
 
-	public String getClientInfo(String id) throws UnknownClientException {
-		return getClient(id).toString();
-	}
-
 	public List<Client> getAllClients() {
-		return _clients;
-	}
-
-	public List<String> getClientNotifInfo(String id) throws UnknownClientException {
-		List<Notification> notifs = getClient(id).getNotifications();
-		List<String> info = new ArrayList<String>();
-
-		for (Notification n : notifs) info.add(n.toString());
-		return info;
+		return Collections.unmodifiableList(_clients);
 	}
 
 	public void registerClient(String id, String name, String address) throws DuplicateKeyException {
@@ -170,10 +162,6 @@ public class Store implements Serializable /* throws InvalidDateException */{
 			if (s.getId().equals(id)) return s;
 
 		throw new UnknownSupplierException();
-	}
-
-	public String getSupplierInfo(String id) throws UnknownSupplierException {
-		return getSupplier(id).toString();
 	}
 
 	/* Transactions */

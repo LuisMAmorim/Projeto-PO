@@ -24,12 +24,8 @@ public class DoShowSuppliers extends Command<StoreManager> {
     List<Supplier> suppliers = _receiver.getSuppliers();
 
     for (Supplier s : suppliers) {
-    	_display.add(s.toString());
-    	_display.add("|");
-    	if (s.isEnabled())
-    		_display.add(Message.yes());
-    	else
-    		_display.add(Message.no());
+      String enabled = s.isEnabled() ? Message.yes() : Message.no();
+    	_display.addLine(s.toString() + "|" + enabled);
     }
 
     _display.display();

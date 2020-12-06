@@ -1,6 +1,6 @@
 package woo.core;
 
-import woo.core.exception.NotEnoughException;
+import woo.core.exception.NotEnoughStockException;
 
 public class Item {
 	private int _quantity;
@@ -11,16 +11,16 @@ public class Item {
 		_quantity = quantity;
 	}
 
-	public void addStock()  {
+	public int getPrice() {
+		return _quantity * _product.getPrice();
+	}
+
+	void addStock()  {
 		_product.addStock(_quantity);
 	}
 
-	public void removeStock() throws NotEnoughException {
+	void removeStock() throws NotEnoughStockException {
 		_product.removeStock(_quantity);
-	}
-
-	public int getPrice() {
-		return _quantity * _product.getPrice();
 	}
 
 	public String toString() {

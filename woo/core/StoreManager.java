@@ -2,9 +2,12 @@ package woo.core;
 
 import java.io.IOException;
 import java.io.FileNotFoundException;
-
+import java.io.ObjectInputStream;
+import java.io.FileInputStream;
+import java.io.ObjectOutputStream;
+import java.util.zip.DeflaterOutputStream;
+import java.io.FileOutputStream;
 import java.util.List;
-import java.util.LinkedList;
 
 import woo.core.exception.UnavailableFileException;
 import woo.core.exception.MissingFileAssociationException;
@@ -18,7 +21,6 @@ import woo.core.exception.DuplicateKeyException;
 
 import woo.core.exception.InvalidServiceLevelException;
 import woo.core.exception.InvalidServiceQualityException;
-import woo.core.exception.InvalidPriceException;
 
 /**
  * StoreManager: façade for the core classes.
@@ -31,19 +33,25 @@ public class StoreManager {
 	/** The actual store. */
 	private Store _store = new Store();
 
-	//FIXME define other attributes
 	//FIXME define constructor(s)
-	//FIXME define other methods
 	public StoreManager() {
 
 	}
 
-	/* Date */
-
+	/**
+	 * Gets the system's current date.
+	 * 
+	 * @return current date
+	 */
 	public int getDate() {
     	return _store.getDate();
   	}
 
+  	/**
+	 * Advances the system's current date by the number of days specified.
+	 * 
+	 * @param numDays number of days to advance
+	 */
   	public void advanceDate(int numDays) {
 		_store.advanceDate(numDays);
 	}
@@ -55,7 +63,7 @@ public class StoreManager {
 	}
 
 	public void changePrice(String productId, int price)
-	throws UnknownProductException, InvalidPriceException {
+	throws UnknownProductException {
 		_store.changePrice(productId, price);
 	}
 
@@ -80,12 +88,8 @@ public class StoreManager {
 		return _store.getClient(id);
 	}*/
 
-	public String getClientInfo(String id) throws UnknownClientException {
-		return _store.getClientInfo(id);
-	}
-
-	public List<String> getClientNotifInfo(String id) throws UnknownClientException {
-		return _store.getClientNotifInfo(id);
+	public Client getClient(String id) throws UnknownClientException {
+		return _store.getClient(id);
 	}
 
 	public List<Client> getAllClients() {
@@ -107,14 +111,26 @@ public class StoreManager {
 	}
 
 	/* ... */
-
+	
 	/**
 	* @throws IOException
 	* @throws FileNotFoundException
 	* @throws MissingFileAssociationException
 	*/
 	public void save() throws IOException, FileNotFoundException, MissingFileAssociationException {
-	//FIXME implement serialization method
+		ObjectOutputStream obOut = null;
+
+		if (_filename == "") throw new MissingFileAssociationException();
+
+		try {
+			FileOutputStream fpout = new FileOutputStream(_filename);
+			DeflaterOutputStream dOut = new DeflaterOutputStream(fpout);
+			obOut = new ObjectOutputStream(dOut);
+			obOut.writeObject(_store);
+		} finally {
+			if (obOut!= null)
+				obOut.close();
+		}
 	}
 
 	/**
@@ -124,16 +140,25 @@ public class StoreManager {
 	* @throws FileNotFoundException
 	*/
 	public void saveAs(String filename) throws MissingFileAssociationException, FileNotFoundException, IOException {
-	_filename = filename;
-	save();
+		_filename = filename;
+		save();
 	}
 
 	/**
 	* @param filename
 	* @throws UnavailableFileException
 	*/
-	public void load(String filename) throws UnavailableFileException {
-		//FIXME implement serialization method
+	public void load(String filename) throws UnavailableFileException, FileNotFoundException, IOException, ClassNotFoundException {
+		ObjectInputStream objIn = null;
+		_filename = filename;
+
+		try {
+			objIn = new ObjectInputStream(new FileInputStream(filename));
+			_store = (Store)objIn.readObject();
+		} finally {
+			if (objIn!= null)
+				objIn.close();
+		}
 	}
 
 	/**

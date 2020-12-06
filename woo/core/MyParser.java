@@ -16,7 +16,7 @@ import woo.core.exception.DuplicateKeyException;
 
 
 public class MyParser {
-  private Store _store;  // ou outra entidade
+  private Store _store;
 
   MyParser(Store s) {
     _store = s;
