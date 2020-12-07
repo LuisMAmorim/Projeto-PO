@@ -6,14 +6,19 @@ public class Sale extends Transaction {
 	private int _amountPaid;
 	private Item _item;
 
-	public Sale(int id, int date, Item item) {
+	public Sale(int id, Client client, int date, Item item) {
 		super(id, date);
+		_client = client;
 		_item = item;
+		_isPaid = false;
+		_amountPaid = 0;
 		incCost(_item.getPrice());
 	}
 
 	public void pay() {
-
+		if (_amountPaid = 0) {
+			_isPaid = true;
+		}
 	}
 
 	public int getPaid() {

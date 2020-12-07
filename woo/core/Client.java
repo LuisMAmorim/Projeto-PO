@@ -6,15 +6,17 @@ import java.util.Collections;
 
 
 public class Client implements Observer {
+	/*
 	private enum ClientStatus {
 	  	NORMAL, ELITE, SELECTION
 	}
+	*/
 
 	private String _id;
 	private String _name;
 	private String _address;
 	private ClientStatus _status;
-	private int _points;
+	//private int _points;
 	private List<Notification> _notifs;
 	private List<Transaction> _transactions;
 
@@ -22,8 +24,8 @@ public class Client implements Observer {
 		_id = id;
 		_name = name;
 		_address = address;
-		_status = ClientStatus.NORMAL;
-		_points = 0;
+		_status = new NormalStatus(0);
+		//_points = 0;
 		_notifs = new ArrayList<Notification>();
 		_transactions = new ArrayList<Transaction>();
 	}
@@ -45,6 +47,23 @@ public class Client implements Observer {
 
 	void addTransaction(Sale sale) {
 		_transactions.add(sale);
+	}
+
+	/*
+	void addPoints(int points) {
+		_points += points;
+
+		if (_points > 25000)
+			_status = new EliteStatus();
+		else if (_points > 2000)
+			_status = new SelectionStatus();
+		else
+			_status = new NormalStatus();
+	}
+	*/
+
+	void setStatus(ClientStatus status) {
+		_status = status;
 	}
 
 	public void notify(Notification notif) {
