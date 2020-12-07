@@ -1,6 +1,7 @@
 package woo.core;
 
 public class Sale extends Transaction {
+	private Client _client;
 	private int _paymentDate;
 	private int _amountPaid;
 	private Item _item;
@@ -19,8 +20,13 @@ public class Sale extends Transaction {
 		return _amountPaid;
 	}
 
-	// ADD TOSTRING !!!!
+	// ADD TOSTRING !!!! UNFINISHED!!!!
+	@Override
 	public String toString() {
-		return "";
+		return String.format("%d|%s|%s|%d|%d", 
+			getId(),
+			_client.getId(),
+			_item.toString()
+			);
 	}
 }

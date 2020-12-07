@@ -38,6 +38,8 @@ public class StoreManager {
 
 	}
 
+	/* DATE */
+
 	/**
 	 * Gets the system's current date.
 	 * 
@@ -50,10 +52,10 @@ public class StoreManager {
   	/**
 	 * Advances the system's current date by the number of days specified.
 	 * 
-	 * @param numDays number of days to advance
+	 * @param days number of days to advance
 	 */
-  	public void advanceDate(int numDays) {
-		_store.advanceDate(numDays);
+  	public void advanceDate(int days) {
+		_store.advanceDate(days);
 	}
 
 	/* Products */
@@ -80,6 +82,10 @@ public class StoreManager {
 	public void registerContainer(String id, String s, String quality, String supplierId, int price, int crit, int q)
 	throws DuplicateKeyException, InvalidServiceLevelException, InvalidServiceQualityException, UnknownSupplierException {
 		_store.registerContainer(id, s, quality, supplierId, price, crit, q);
+	}
+
+	public List<Product> lookupProductsUnderTopPrice(int topPrice) {
+		return _store.lookupProductsUnderTopPrice(topPrice);
 	}
 
 	/* Clients */

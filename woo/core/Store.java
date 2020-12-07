@@ -58,10 +58,10 @@ public class Store implements Serializable, Observer {
 	/* Products */
 
 	public List<Product> getAllProducts() {
-		return _products;
+		return Collections.unmodifiableList(_products);
 	}
 
-	private void registerProduct(Product product)
+	private void addProduct(Product product)
 	throws DuplicateKeyException {
 		int i = 0;
 
@@ -85,19 +85,19 @@ public class Store implements Serializable, Observer {
 	public void registerBox(String id, String s, String supplierId, int price, int crit, int q)
 	throws DuplicateKeyException, InvalidServiceLevelException , UnknownSupplierException {
 		Box box = new Box(id, s, getSupplier(supplierId), price, crit, q);
-		registerProduct(box);
+		addProduct(box);
 	}
 
 	public void registerBook(String id, String title, String author, String isbn, String supplierId, int price, int crit, int q)
 	throws DuplicateKeyException, UnknownSupplierException {
 		Book book = new Book(id, title, author, isbn, getSupplier(supplierId), price, crit, q);
-		registerProduct(book);
+		addProduct(book);
 	}
 
 	public void registerContainer(String id, String s, String quality, String supplierId, int price, int crit, int q)
 	throws DuplicateKeyException, InvalidServiceLevelException, InvalidServiceQualityException, UnknownSupplierException {
 		Container container = new Container(id, s, quality, getSupplier(supplierId), price, crit, q);
-		registerProduct(container);
+		addProduct(container);
 	}
 
 	public void changePrice(String productId, int price)
@@ -106,6 +106,15 @@ public class Store implements Serializable, Observer {
 			if (p.getId().equals(productId)) p.setPrice(price);
 
 		throw new UnknownProductException();
+	}
+
+	public List<Product> lookupProductsUnderTopPrice(int topPrice) {
+		List<Product> results = new ArrayList<Product>();
+
+		for (Product p : _products)
+			if (p.getPrice() < topPrice) results.add(p);
+
+		return results;
 	}
 
 	/* Clients */

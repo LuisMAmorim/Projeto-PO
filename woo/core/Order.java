@@ -20,7 +20,7 @@ public class Order extends Transaction {
 		incCost(it.getPrice());
 	}
 	
-	//@Override
+	@Override
 	public String toString() {
 		StringBuilder strBuilder = new StringBuilder(String.format("%d|%s|%d|%d",
 			getId(),

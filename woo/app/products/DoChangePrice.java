@@ -6,7 +6,6 @@ import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
 
 import woo.core.exception.UnknownProductException;
-import woo.core.exception.InvalidPriceException;
 
 /**
  * Change product price.
