@@ -34,7 +34,7 @@ public class Supplier {
 		return Collections.unmodifiableList(_transactions);
 	}
 
-	boolean toggleActivation() {
+	boolean toggleTransactions() {
 		_enabled = !_enabled;
 		return _enabled;
 	}

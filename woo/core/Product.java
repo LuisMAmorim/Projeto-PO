@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import woo.core.exception.NotEnoughStockException;
 
 public abstract class Product {
+	private static int _deadlineFactor;
 	private String _id;
 	private Supplier _supplier;
 	private int _price;
@@ -53,6 +54,16 @@ public abstract class Product {
 		_observers.add(obs);
 	}
 
+	boolean toggleObserver(Observer obs) {
+		if (_observers.contains(obs)) {
+			_observers.remove(obs);
+			return false;
+		} else {
+			_observers.add(obs);
+			return true;
+		}
+	}
+
 	void addStock(int quantity) {
 		if (_currentQuantity == 0) {
 			Notification notif = new Notification("NEW", this);
@@ -88,5 +99,9 @@ public abstract class Product {
 
 	public int compareTo(Product other) {
 		return _id.toUpperCase().compareTo(other.getId().toUpperCase());
+	}
+
+	public int getDeadlineFactor() {
+		return _deadlineFactor;
 	}
 }

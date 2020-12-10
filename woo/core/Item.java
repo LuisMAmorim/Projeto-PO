@@ -15,6 +15,10 @@ public class Item {
 		return _quantity * _product.getPrice();
 	}
 
+	public int getDeadlineFactor() {
+		return _product.getDeadlineFactor();
+	}
+
 	void addStock()  {
 		_product.addStock(_quantity);
 	}

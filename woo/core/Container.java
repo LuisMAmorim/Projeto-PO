@@ -10,6 +10,7 @@ public class Container extends Box {
 		B4, C4, C5, DL
 	}
 
+	private final static int _deadlineFactor = 8;
 	private ServiceQuality _serviceQuality;
 
 	public Container(String id, String s, String quality, Supplier supplier, int price, int crit, int q)

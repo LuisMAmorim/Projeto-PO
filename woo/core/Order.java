@@ -19,6 +19,16 @@ public class Order extends Transaction {
 		it.addStock();
 		incCost(it.getPrice());
 	}
+
+	@Override
+	public double getAvailableBalanceContribution(int date) {
+		return -getCost();
+	}
+
+	@Override
+	public double getAccountingBalanceContribution(int date) {
+		return -getCost();
+	}
 	
 	@Override
 	public String toString() {

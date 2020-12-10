@@ -1,16 +1,16 @@
 package woo.app.clients;
 
+import java.util.List;
+
 import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
-
 import woo.core.Client;
 import woo.core.Transaction;
 
 import woo.core.exception.UnknownClientException;
 import woo.app.exception.UnknownClientKeyException;
-import java.util.List;
 
 /**
  * Show all transactions for a specific client.

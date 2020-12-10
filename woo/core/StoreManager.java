@@ -17,6 +17,8 @@ import woo.core.exception.BadEntryException;
 import woo.core.exception.UnknownProductException;
 import woo.core.exception.UnknownClientException;
 import woo.core.exception.UnknownSupplierException;
+import woo.core.exception.UnknownTransactionException;
+
 import woo.core.exception.DuplicateKeyException;
 
 import woo.core.exception.InvalidServiceLevelException;
@@ -58,6 +60,17 @@ public class StoreManager {
 		_store.advanceDate(days);
 	}
 
+	/* BALANCE */
+
+	public double getAvailableBalance() {
+		return _store.getAvailableBalance();
+
+	}
+
+	public double getAccountingBalance() {
+		return _store.getAccountingBalance();
+	}
+
 	/* Products */
 
 	public List<Product> getAllProducts() {
@@ -90,10 +103,6 @@ public class StoreManager {
 
 	/* Clients */
 
-	/*public Client getClient(String id) throws UnknownClientException {
-		return _store.getClient(id);
-	}*/
-
 	public Client getClient(String id) throws UnknownClientException {
 		return _store.getClient(id);
 	}
@@ -105,6 +114,11 @@ public class StoreManager {
 	public void registerClient(String id, String name, String address) throws DuplicateKeyException {
 		_store.registerClient(id, name, address);
 	}
+
+	public boolean toggleNotifications(String clientId, String productId)
+	throws UnknownClientException, UnknownProductException {
+		return _store.toggleNotifications(clientId, productId);
+	}
 	
 	/* Suppliers */
 
@@ -114,6 +128,16 @@ public class StoreManager {
 
 	public void registerSupplier(String id, String name, String address) throws DuplicateKeyException {
 		_store.registerSupplier(id, name, address);
+	}
+
+	public boolean toggleTransactions(String id) throws UnknownSupplierException {
+		return _store.toggleTransactions(id);
+	}
+
+	/* Transactions */
+
+	public void pay(int id) throws UnknownTransactionException {
+		_store.pay(id);
 	}
 
 	/* ... */
@@ -154,16 +178,14 @@ public class StoreManager {
 	* @param filename
 	* @throws UnavailableFileException
 	*/
-	public void load(String filename) throws UnavailableFileException, FileNotFoundException, IOException, ClassNotFoundException {
-		ObjectInputStream objIn = null;
+	public void load(String filename) throws UnavailableFileException {
 		_filename = filename;
 
-		try {
-			objIn = new ObjectInputStream(new FileInputStream(filename));
+		try (ObjectInputStream objIn = new ObjectInputStream(new FileInputStream(filename))) {
 			_store = (Store)objIn.readObject();
-		} finally {
-			if (objIn!= null)
-				objIn.close();
+		}
+		catch (IOException | ClassNotFoundException x) {
+			throw new UnavailableFileException(filename);
 		}
 	}
 

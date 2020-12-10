@@ -1,6 +1,10 @@
+package woo.core;
+
 public interface ClientStatus {
+	
+	void updateStatus(int points);
 
-	ClientStatus getLowerStatus();
+	double getCurrentCost(Sale sale, int delay);
 
-	//int pay(Sale sale, );
+	double pay(Sale sale);
 }

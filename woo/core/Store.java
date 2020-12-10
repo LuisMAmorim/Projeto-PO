@@ -1,6 +1,5 @@
 package woo.core;
 
-//FIXME import classes (cannot import from pt.tecnico or woo.app)
 import java.io.Serializable;
 
 import java.io.IOException;
@@ -15,6 +14,7 @@ import woo.core.exception.BadEntryException;
 import woo.core.exception.UnknownProductException;
 import woo.core.exception.UnknownClientException;
 import woo.core.exception.UnknownSupplierException;
+import woo.core.exception.UnknownTransactionException;
 
 import woo.core.exception.DuplicateKeyException;
 
@@ -55,7 +55,35 @@ public class Store implements Serializable, Observer {
 		_date += numDays;
 	}
 
+	/* Balance */
+
+	public double getAvailableBalance() {
+		double balance = 0;
+
+		for (Transaction t : _transactions)
+			balance += t.getAvailableBalanceContribution(_date);
+
+		return balance;
+
+	}
+
+	public double getAccountingBalance() {
+		double balance = 0;
+
+		for (Transaction t : _transactions)
+			balance += t.getAccountingBalanceContribution(_date);
+
+		return balance;
+	}
+
 	/* Products */
+
+	private Product getProduct(String id) throws UnknownProductException {
+		for (Product p : _products)
+			if (p.getId().equals(id)) return p;
+
+		throw new UnknownProductException();
+	}
 
 	public List<Product> getAllProducts() {
 		return Collections.unmodifiableList(_products);
@@ -100,12 +128,8 @@ public class Store implements Serializable, Observer {
 		addProduct(container);
 	}
 
-	public void changePrice(String productId, int price)
-	throws UnknownProductException {
-		for (Product p : _products)
-			if (p.getId().equals(productId)) p.setPrice(price);
-
-		throw new UnknownProductException();
+	public void changePrice(String id, int price) throws UnknownProductException {
+		getProduct(id).setPrice(price);
 	}
 
 	public List<Product> lookupProductsUnderTopPrice(int topPrice) {
@@ -144,7 +168,12 @@ public class Store implements Serializable, Observer {
 		_clients.add(i, client);
 
 		for (Product p : _products) p.addObserver(client);
-	}	
+	}
+
+	public boolean toggleNotifications(String clientId, String productId)
+	throws UnknownClientException, UnknownProductException {
+		return getProduct(productId).toggleObserver(getClient(clientId));
+	}
 
 	/* Suppliers */
 
@@ -173,6 +202,10 @@ public class Store implements Serializable, Observer {
 		throw new UnknownSupplierException();
 	}
 
+	public boolean toggleTransactions(String id) throws UnknownSupplierException {
+		return getSupplier(id).toggleTransactions();
+	}
+
 	/* Transactions */
 
 	public void registerOrder(String supplierId) throws UnknownSupplierException {
@@ -180,6 +213,11 @@ public class Store implements Serializable, Observer {
 		_transactions.add(order);
 	}
 
+	public void pay(int id) throws UnknownTransactionException {
+		if (id >= 0 && id < _transactions.size())
+			throw new UnknownTransactionException();
+		_transactions.get(id).pay(_date);
+	}
 
 	/**
 	* @param txtfile filename to be loaded.

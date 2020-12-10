@@ -23,9 +23,15 @@ public abstract class Transaction {
 		return _cost;
 	}
 
+	public abstract double getAvailableBalanceContribution(int date);
+
+	public abstract double getAccountingBalanceContribution(int date);
+
 	void incCost(int cost) {
 		_cost += cost;
 	}
+
+	void pay(int date) {}
 
 	public abstract String toString();
 }

@@ -4,22 +4,31 @@ import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
-//FIXME import other classes
+
+import woo.core.exception.UnknownTransactionException;
+import woo.app.exception.UnknownTransactionKeyException;
 
 /**
  * Pay transaction (sale).
  */
 public class DoPay extends Command<StoreManager> {
 
-  //FIXME add input fields
+  private Input<Integer> _id;
   
   public DoPay(StoreManager storefront) {
     super(Label.PAY, storefront);
-    //FIXME init input fields
+    _id = _form.addIntegerInput(Message.requestTransactionKey());
   }
 
   @Override
   public final void execute() throws DialogException {
-    //FIXME implement command
+    _form.parse();
+    
+    try {
+    	_receiver.pay(_id.value());
+    }
+    catch (UnknownTransactionException x) {
+    	throw new UnknownTransactionKeyException(_id.value());
+    }
   }
 }
