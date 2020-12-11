@@ -4,22 +4,35 @@ import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
-//FIXME import other classes
+import woo.core.Transaction;
+
+import woo.core.exception.UnknownTransactionException;
+import woo.app.exception.UnknownTransactionKeyException;
 
 /**
  * Show specific transaction.
  */
 public class DoShowTransaction extends Command<StoreManager> {
 
-  //FIXME add input fields
+  private Input<Integer> _key;
 
   public DoShowTransaction(StoreManager receiver) {
     super(Label.SHOW_TRANSACTION, receiver);
-    //FIXME init input fields
+    _key = _form.addIntegerInput(Message.requestTransactionKey());
   }
 
   @Override
   public final void execute() throws DialogException {
-    //FIXME implememt command
+    _form.parse();
+
+    try {
+    	Transaction t = _receiver.getTransaction(_key.value());
+    	String isPaid = t.getPaid() ? Message.yes() : Message.no();
+
+    	_display.addLine(t.toString(isPaid));
+    }
+    catch (UnknownTransactionException x) {
+    	throw new UnknownTransactionKeyException(_key.value());
+    }
   }
 }

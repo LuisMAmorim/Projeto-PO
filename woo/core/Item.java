@@ -19,6 +19,10 @@ public class Item {
 		return _product.getDeadlineFactor();
 	}
 
+	public boolean isSoldBy(Supplier supplier) {
+		return supplier.getProducts().contains(_product);
+	}
+
 	void addStock()  {
 		_product.addStock(_quantity);
 	}

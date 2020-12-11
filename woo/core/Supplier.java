@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import woo.core.exception.DisabledSupplierException;
+
 
 public class Supplier {
 	private String _id;
@@ -39,8 +41,19 @@ public class Supplier {
 		return _enabled;
 	}
 
+	void addTransaction(Order order) throws DisabledSupplierException {
+		if (_enabled)
+			_transactions.add(order);
+		else
+			throw new DisabledSupplierException();
+	}
+
 	void addProduct(Product p) {
 		_products.add(p);
+	}
+
+	public List<Product> getProducts() {
+		return _products;
 	}
 
 	public String toString() {

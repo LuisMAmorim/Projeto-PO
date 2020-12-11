@@ -4,20 +4,35 @@ import java.util.List;
 import java.util.ArrayList;
 import java.lang.StringBuilder;
 
+import woo.core.exception.BadSupplierException;
+import woo.core.exception.DisabledSupplierException;
+
 public class Order extends Transaction {
 	private Supplier _supplier;
 	private List<Item> _items;
+	private boolean _finished;
 
 	public Order(int id, int date, Supplier supplier) {
 		super(id, date);
 		_supplier = supplier;
 		_items = new ArrayList<Item>();
+		_finished = false;
 	}
 
-	void addItem(Item it) {
-		_items.add(it);
-		it.addStock();
-		incCost(it.getPrice());
+	void addItem(Item it) throws BadSupplierException {
+		if (!it.isSoldBy(_supplier))
+			throw new BadSupplierException();
+
+		if (!_finished) {
+			_items.add(it);
+			it.addStock();
+			incCost(it.getPrice());
+		}
+	}
+
+	void finish() throws DisabledSupplierException {
+		_finished = true;
+		_supplier.addTransaction(this);
 	}
 
 	@Override
@@ -31,7 +46,7 @@ public class Order extends Transaction {
 	}
 	
 	@Override
-	public String toString() {
+	public String toString(String isPaid) {
 		StringBuilder strBuilder = new StringBuilder(String.format("%d|%s|%d|%d",
 			getId(),
 			_supplier.getId(),

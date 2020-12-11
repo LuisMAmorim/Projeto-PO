@@ -26,6 +26,7 @@ public class Sale extends Transaction {
 		}
 	}
 
+	@Override
 	public boolean getPaid() {
 		return _isPaid;
 	}
@@ -56,13 +57,16 @@ public class Sale extends Transaction {
 	}
 
 	@Override
-	public String toString() {
-		return String.format("%d|%s|%s|%d|%d", 
+	public String toString(String isPaid) {
+		return String.format("%d|%s|%s|%d|%d|%d|%s|%d", 
 			getId(),
 			_client.getId(),
 			_item.toString(),
 			getCost(),
-			_amountPaid
+			_amountPaid,
+			getDate(),
+			isPaid,
+			_paymentDate
 		);
 	}
 }

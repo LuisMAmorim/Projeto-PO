@@ -23,6 +23,10 @@ public abstract class Transaction {
 		return _cost;
 	}
 
+	public boolean getPaid() {
+		return true;
+	}
+
 	public abstract double getAvailableBalanceContribution(int date);
 
 	public abstract double getAccountingBalanceContribution(int date);
@@ -33,5 +37,5 @@ public abstract class Transaction {
 
 	void pay(int date) {}
 
-	public abstract String toString();
+	public abstract String toString(String isPaid);
 }

@@ -4,23 +4,49 @@ import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
-//FIXME import other classes
+
+import woo.app.exception.UnknownClientKeyException;
+import woo.app.exception.UnknownProductKeyException;
+
+import woo.core.exception.UnknownClientException;
+import woo.core.exception.UnknownProductException;
 
 /**
  * Register sale.
  */
 public class DoRegisterSaleTransaction extends Command<StoreManager> {
 
-  //FIXME add input fields
+  private Input<String> _clientKey;
+  private Input<Integer> _deadline;
+  private Input<String> _productKey;
+  private Input<Integer> _amount;
 
   public DoRegisterSaleTransaction(StoreManager receiver) {
     super(Label.REGISTER_SALE_TRANSACTION, receiver);
-    //FIXME init input fields
+    _clientKey = _form.addStringInput(Message.requestClientKey());
+    _deadline = _form.addIntegerInput(Message.requestPaymentDeadline());
+    _productKey = _form.addStringInput(Message.requestProductKey());
+    _amount = _form.addIntegerInput(Message.requestAmount());
   }
 
   @Override
   public final void execute() throws DialogException {
-    //FIXME implement command
+    _form.parse();
+    
+  	try {
+  		_receiver.registerSale(
+  			_clientKey.value(),
+  			_deadline.value(),
+  			_productKey.value(),
+  			_amount.value()
+  		);
+  	}
+  	catch (UnknownClientException x) {
+  		throw new UnknownClientKeyException(_clientKey.value());
+  	}
+  	catch (UnknownProductException x) {
+  		throw new UnknownProductKeyException(_productKey.value());
+  	}
   }
 
 }

@@ -21,6 +21,9 @@ import woo.core.exception.DuplicateKeyException;
 import woo.core.exception.InvalidServiceLevelException;
 import woo.core.exception.InvalidServiceQualityException;
 
+import woo.core.exception.BadSupplierException;
+import woo.core.exception.DisabledSupplierException;
+
 /**
  * Class Store implements a store.
  */
@@ -195,7 +198,7 @@ public class Store implements Serializable, Observer {
 		return _suppliers;
 	}
 
-	private Supplier getSupplier(String id) throws UnknownSupplierException {
+	public Supplier getSupplier(String id) throws UnknownSupplierException {
 		for (Supplier s : _suppliers)
 			if (s.getId().equals(id)) return s;
 
@@ -208,15 +211,37 @@ public class Store implements Serializable, Observer {
 
 	/* Transactions */
 
-	public void registerOrder(String supplierId) throws UnknownSupplierException {
+	public Transaction getTransaction(int id) throws UnknownTransactionException {
+		if (id >= 0 && id < _transactions.size())
+			throw new UnknownTransactionException();
+		return _transactions.get(id);
+	}
+
+	public void registerSale(String clientId, int date, String productId, int quantity)
+	throws UnknownClientException, UnknownProductException {
+		Item item = new Item(getProduct(productId), quantity);
+		Sale sale = new Sale(_transactions.size(), getClient(clientId), date, item);
+		_transactions.add(sale);
+	}
+
+	public Order createOrder(String supplierId) throws UnknownSupplierException {
 		Order order = new Order(_transactions.size(), _date, getSupplier(supplierId));
-		_transactions.add(order);
+		return order;
+	}
+
+	public void registerOrder(Order order) throws DisabledSupplierException {
+		order.finish();
+		_transactions.add(order.getId(), order);
+	}
+
+	public void addItemToOrder(Order order, String productId, int quantity)
+	throws UnknownProductException, BadSupplierException {
+		Item item = new Item(getProduct(productId), quantity);
+		order.addItem(item);
 	}
 
 	public void pay(int id) throws UnknownTransactionException {
-		if (id >= 0 && id < _transactions.size())
-			throw new UnknownTransactionException();
-		_transactions.get(id).pay(_date);
+		getTransaction(id).pay(_date);
 	}
 
 	/**

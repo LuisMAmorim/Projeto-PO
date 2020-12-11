@@ -24,6 +24,9 @@ import woo.core.exception.DuplicateKeyException;
 import woo.core.exception.InvalidServiceLevelException;
 import woo.core.exception.InvalidServiceQualityException;
 
+import woo.core.exception.BadSupplierException;
+import woo.core.exception.DisabledSupplierException;
+
 /**
  * StoreManager: façade for the core classes.
  */
@@ -33,11 +36,10 @@ public class StoreManager {
 	private String _filename = "";
 
 	/** The actual store. */
-	private Store _store = new Store();
+	private Store _store;
 
-	//FIXME define constructor(s)
 	public StoreManager() {
-
+		_store = new Store();
 	}
 
 	/* DATE */
@@ -122,6 +124,10 @@ public class StoreManager {
 	
 	/* Suppliers */
 
+	public Supplier getSupplier(String id) throws UnknownSupplierException {
+		return _store.getSupplier(id);
+	}
+
 	public List<Supplier> getSuppliers() {
 		return _store.getAllSuppliers();
 	}
@@ -136,12 +142,33 @@ public class StoreManager {
 
 	/* Transactions */
 
+	public Transaction getTransaction(int id) throws UnknownTransactionException {
+		return _store.getTransaction(id);
+	}
+
+	public void registerSale(String clientId, int date, String productId, int quantity)
+	throws UnknownClientException, UnknownProductException {
+		_store.registerSale(clientId, date, productId, quantity);
+	}
+
+	public Order createOrder(String supplierId) throws UnknownSupplierException {
+		return _store.createOrder(supplierId);
+	}
+
+	public void addItemToOrder(Order order, String productId, int quantity)
+	throws UnknownProductException, BadSupplierException {
+		_store.addItemToOrder(order, productId, quantity);
+	}
+
+	public void registerOrder(Order order) throws DisabledSupplierException {
+		_store.registerOrder(order);
+	}
+
 	public void pay(int id) throws UnknownTransactionException {
 		_store.pay(id);
 	}
 
-	/* ... */
-	
+
 	/**
 	* @throws IOException
 	* @throws FileNotFoundException
