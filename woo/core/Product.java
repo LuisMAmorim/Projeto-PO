@@ -101,7 +101,5 @@ public abstract class Product {
 		return _id.toUpperCase().compareTo(other.getId().toUpperCase());
 	}
 
-	public int getDeadlineFactor() {
-		return _deadlineFactor;
-	}
+	public abstract int getDeadlineFactor();
 }

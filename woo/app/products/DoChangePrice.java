@@ -26,7 +26,7 @@ public class DoChangePrice extends Command<StoreManager> {
     _form.parse();
     
     try {
-    	_receiver.changePrice(_id.value(), _price.value());
+      if (_price.value() > 0) _receiver.changePrice(_id.value(), _price.value());
     }
     catch (UnknownProductException x) {
     	/* Fails silently. */

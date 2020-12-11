@@ -46,7 +46,7 @@ public class Order extends Transaction {
 	}
 	
 	@Override
-	public String toString(String isPaid) {
+	public String toString(int date) {
 		StringBuilder strBuilder = new StringBuilder(String.format("%d|%s|%d|%d",
 			getId(),
 			_supplier.getId(),

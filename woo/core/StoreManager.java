@@ -26,6 +26,7 @@ import woo.core.exception.InvalidServiceQualityException;
 
 import woo.core.exception.BadSupplierException;
 import woo.core.exception.DisabledSupplierException;
+import woo.core.exception.NotEnoughStockException;
 
 /**
  * StoreManager: façade for the core classes.
@@ -74,6 +75,10 @@ public class StoreManager {
 	}
 
 	/* Products */
+
+	public Product getProduct(String id) throws UnknownProductException {
+		return _store.getProduct(id);
+	}
 
 	public List<Product> getAllProducts() {
 		return _store.getAllProducts();
@@ -147,7 +152,7 @@ public class StoreManager {
 	}
 
 	public void registerSale(String clientId, int date, String productId, int quantity)
-	throws UnknownClientException, UnknownProductException {
+	throws UnknownClientException, UnknownProductException, NotEnoughStockException {
 		_store.registerSale(clientId, date, productId, quantity);
 	}
 

@@ -27,9 +27,9 @@ public class DoShowTransaction extends Command<StoreManager> {
 
     try {
     	Transaction t = _receiver.getTransaction(_key.value());
-    	String isPaid = t.getPaid() ? Message.yes() : Message.no();
+    	int date = _receiver.getDate();
 
-    	_display.addLine(t.toString(isPaid));
+    	_display.popup(t.toString(date));
     }
     catch (UnknownTransactionException x) {
     	throw new UnknownTransactionKeyException(_key.value());

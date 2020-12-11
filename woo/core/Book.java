@@ -3,7 +3,6 @@ package woo.core;
 import woo.core.exception.InvalidPriceException;
 
 public class Book extends Product {
-	private final static int _deadlineFactor = 3;
 	private String _title;
 	private String _author;
 	private String _isbn;
@@ -21,5 +20,9 @@ public class Book extends Product {
 
 	public String getExtraInformation() {
 		return String.format("%s|%s|%s", _title, _author, _isbn);
+	}
+
+	public int getDeadlineFactor() {
+		return 3;
 	}
 }

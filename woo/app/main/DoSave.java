@@ -19,7 +19,6 @@ public class DoSave extends Command<StoreManager> {
   /** @param receiver */
   public DoSave(StoreManager receiver) {
     super(Label.SAVE, receiver);
-    _fileName = _form.addStringInput(Message.openFile());
   }
 
   /** @see pt.tecnico.po.ui.Command#execute() */
@@ -30,6 +29,7 @@ public class DoSave extends Command<StoreManager> {
         _receiver.save();   
       }
       catch (MissingFileAssociationException x) {
+        _fileName = _form.addStringInput(Message.newSaveAs());
         _form.parse();
         _receiver.saveAs(_fileName.value());
       }

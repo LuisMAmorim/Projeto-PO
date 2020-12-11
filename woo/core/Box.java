@@ -9,7 +9,6 @@ public class Box extends Product {
 		NORMAL, AIR, EXPRESS, PERSONAL
 	}
 
-	private final static int _deadlineFactor = 5;
 	private ServiceLevel _serviceLevel;
 
 	public Box(String id, String s, Supplier supplier, int price, int crit, int q)
@@ -33,5 +32,9 @@ public class Box extends Product {
 
 	public String getExtraInformation() {
 		return _serviceLevel.name();
+	}
+
+	public int getDeadlineFactor() {
+		return 5;
 	}
 }

@@ -38,10 +38,15 @@ public class SelectionStatus implements ClientStatus {
 
 	public double pay(Sale sale) {
 		int delay = sale.getPaymentDate() - sale.getDate();
+		double currentCost = getCurrentCost(sale, delay);
 
-		if (delay <= 0) updateStatus(sale.getCost() * 10);
+		if (delay <= 0) updateStatus((int)Math.round(currentCost * 10));
 		if (delay > 2) lowerStatus();
 
-		return getCurrentCost(sale, delay);
+		return currentCost;
+	}
+
+	public String toString() {
+		return "SELECTION";
 	}
 }

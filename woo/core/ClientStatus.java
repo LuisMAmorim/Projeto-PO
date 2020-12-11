@@ -7,4 +7,6 @@ public interface ClientStatus {
 	double getCurrentCost(Sale sale, int delay);
 
 	double pay(Sale sale);
+
+	String toString();
 }

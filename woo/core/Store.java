@@ -21,6 +21,7 @@ import woo.core.exception.DuplicateKeyException;
 import woo.core.exception.InvalidServiceLevelException;
 import woo.core.exception.InvalidServiceQualityException;
 
+import woo.core.exception.NotEnoughStockException;
 import woo.core.exception.BadSupplierException;
 import woo.core.exception.DisabledSupplierException;
 
@@ -81,7 +82,7 @@ public class Store implements Serializable, Observer {
 
 	/* Products */
 
-	private Product getProduct(String id) throws UnknownProductException {
+	public Product getProduct(String id) throws UnknownProductException {
 		for (Product p : _products)
 			if (p.getId().equals(id)) return p;
 
@@ -212,13 +213,13 @@ public class Store implements Serializable, Observer {
 	/* Transactions */
 
 	public Transaction getTransaction(int id) throws UnknownTransactionException {
-		if (id >= 0 && id < _transactions.size())
+		if (id < 0 || id >= _transactions.size())
 			throw new UnknownTransactionException();
 		return _transactions.get(id);
 	}
 
 	public void registerSale(String clientId, int date, String productId, int quantity)
-	throws UnknownClientException, UnknownProductException {
+	throws UnknownClientException, UnknownProductException, NotEnoughStockException  {
 		Item item = new Item(getProduct(productId), quantity);
 		Sale sale = new Sale(_transactions.size(), getClient(clientId), date, item);
 		_transactions.add(sale);

@@ -1,5 +1,7 @@
 package woo.core;
 
+import woo.core.exception.NotEnoughStockException;
+
 public class Sale extends Transaction {
 	private Client _client;
 	private int _paymentDate;
@@ -7,12 +9,13 @@ public class Sale extends Transaction {
 	private Item _item;
 	private boolean _isPaid;
 
-	public Sale(int id, Client client, int date, Item item) {
+	public Sale(int id, Client client, int date, Item item) throws NotEnoughStockException {
 		super(id, date);
 		_client = client;
 		_item = item;
 		_amountPaid = 0;
 		_isPaid = false;
+		item.removeStock();
 		_client.addTransaction(this);
 		incCost(_item.getPrice());
 	}
@@ -57,16 +60,16 @@ public class Sale extends Transaction {
 	}
 
 	@Override
-	public String toString(String isPaid) {
-		return String.format("%d|%s|%s|%d|%d|%d|%s|%d", 
+	public String toString(int date) {
+		String str = String.format("%d|%s|%s|%d|%d|%d", 
 			getId(),
 			_client.getId(),
 			_item.toString(),
 			getCost(),
-			_amountPaid,
-			getDate(),
-			isPaid,
-			_paymentDate
+			Math.round(getAccountingBalanceContribution(date)),
+			getDate()
 		);
+		if (_isPaid) str = str + "|" + _paymentDate;
+		return str;
 	}
 }

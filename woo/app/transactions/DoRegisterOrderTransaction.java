@@ -2,6 +2,7 @@ package woo.app.transactions;
 
 import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
+import pt.tecnico.po.ui.Form;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
 import woo.core.Order;
@@ -34,15 +35,15 @@ public class DoRegisterOrderTransaction extends Command<StoreManager> {
   @Override
   public final void execute() throws DialogException {
     _form.parse();
-    
   	try {
   		Order order = _receiver.createOrder(_supplierKey.value());
 
   		do {
-		    _productKey = _form.addStringInput(Message.requestProductKey());
-		    _amount = _form.addIntegerInput(Message.requestAmount());
-		    _more = _form.addBooleanInput(Message.requestMore());
-		    _form.parse();
+        Form productForm = new Form();
+		    _productKey = productForm.addStringInput(Message.requestProductKey());
+		    _amount = productForm.addIntegerInput(Message.requestAmount());
+		    _more = productForm.addBooleanInput(Message.requestMore());
+		    productForm.parse();
 
 		    _receiver.addItemToOrder(order, _productKey.value(), _amount.value());
   		}

@@ -10,7 +10,6 @@ public class Container extends Box {
 		B4, C4, C5, DL
 	}
 
-	private final static int _deadlineFactor = 8;
 	private ServiceQuality _serviceQuality;
 
 	public Container(String id, String s, String quality, Supplier supplier, int price, int crit, int q)
@@ -20,7 +19,7 @@ public class Container extends Box {
 		try {
 			_serviceQuality = ServiceQuality.valueOf(quality);
 		} catch (IllegalArgumentException x) {
-			throw new InvalidServiceLevelException(quality);
+			throw new InvalidServiceQualityException(quality);
 		}
 	}
 
@@ -36,5 +35,9 @@ public class Container extends Box {
 	@Override
 	public String getExtraInformation() {
 		return String.format("%s|%s", super.getExtraInformation(), _serviceQuality);
+	}
+
+	public int getDeadlineFactor() {
+		return 8;
 	}
 }

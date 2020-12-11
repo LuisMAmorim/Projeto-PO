@@ -70,7 +70,7 @@ public class Client implements Observer {
 	}
 
 	public double getCurrentCost(Sale sale, int date) {
-		int delay = date - sale.getDate();		
+		int delay = date - sale.getDate();
 		return _status.getCurrentCost(sale, delay);
 	}
 
@@ -110,7 +110,7 @@ public class Client implements Observer {
 			amountPaid += s.getAmountPaid();
 		}
 
-		return String.format("%s|%s|%s|%d|%d", _id, _name, _address, amount, amountPaid);
+		return String.format("%s|%s|%s|%s|%d|%d", _id, _name, _address, _status.toString(), amount, amountPaid);
 	}
 
 	public int compareTo(Client other) {

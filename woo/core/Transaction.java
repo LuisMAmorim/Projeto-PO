@@ -37,5 +37,5 @@ public abstract class Transaction {
 
 	void pay(int date) {}
 
-	public abstract String toString(String isPaid);
+	public abstract String toString(int date);
 }

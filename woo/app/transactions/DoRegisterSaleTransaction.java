@@ -4,12 +4,15 @@ import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
+import woo.core.Product;
 
 import woo.app.exception.UnknownClientKeyException;
 import woo.app.exception.UnknownProductKeyException;
+import woo.app.exception.UnavailableProductException;
 
 import woo.core.exception.UnknownClientException;
 import woo.core.exception.UnknownProductException;
+import woo.core.exception.NotEnoughStockException;
 
 /**
  * Register sale.
@@ -32,8 +35,11 @@ public class DoRegisterSaleTransaction extends Command<StoreManager> {
   @Override
   public final void execute() throws DialogException {
     _form.parse();
+    int available = 0;
     
   	try {
+      available = _receiver.getProduct(_productKey.value()).getCurrentQuantity();
+
   		_receiver.registerSale(
   			_clientKey.value(),
   			_deadline.value(),
@@ -47,6 +53,13 @@ public class DoRegisterSaleTransaction extends Command<StoreManager> {
   	catch (UnknownProductException x) {
   		throw new UnknownProductKeyException(_productKey.value());
   	}
+    catch (NotEnoughStockException x) {
+      throw new UnavailableProductException(
+        _productKey.value(),
+        _amount.value(),
+        available
+      );
+    }
   }
 
 }

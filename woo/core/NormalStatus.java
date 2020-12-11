@@ -24,7 +24,7 @@ public class NormalStatus implements ClientStatus {
 		int n = sale.getDeadlineFactor();
 
 		if (delay <= -n) cost *= 0.90;
-		else if (delay <= 0);
+		else if (delay <= 0) cost *= 1;
 		else if (delay <= n) cost += (0.05 * cost) * delay;
 		else if (delay <= 2*n) cost += (0.10 * cost) * delay;
 
@@ -33,9 +33,14 @@ public class NormalStatus implements ClientStatus {
 
 	public double pay(Sale sale) {
 		int delay = sale.getPaymentDate() - sale.getDate();
+		double currentCost = getCurrentCost(sale, delay);
 
-		if (delay <= 0) updateStatus(sale.getCost() * 10);
+		if (delay <= 0) updateStatus((int)Math.round(currentCost * 10));
 
-		return getCurrentCost(sale, delay);
+		return currentCost;
+	}
+
+	public String toString() {
+		return "NORMAL";
 	}
 }
